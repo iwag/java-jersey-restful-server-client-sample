@@ -1,14 +1,22 @@
 package finalproject.models.responsemodels;
 
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class UserResponseModel {
+    public void setJoined(String joined) {
+        this.joined = joined;
+    }
 
-    String firstname;
-    String lastname;
-    String userId;
-    String username;
-    String country;
-    String joined;
+    private String firstname;
+    private String lastname;
+    private String userId;
+    private String username;
+    private String country;
+    private String joined;
+
+    public UserResponseModel() {
+    }
 
     public UserResponseModel(String firstname, String lastname, String userId, String username, String country, String joined, String authToken) {
         this.firstname = firstname;
@@ -42,5 +50,25 @@ public class UserResponseModel {
     public String getJoined() {
         return joined;
     }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
 
 }

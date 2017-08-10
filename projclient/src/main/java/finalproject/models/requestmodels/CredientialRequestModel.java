@@ -1,10 +1,16 @@
-package finalproject.models.entities;
+package finalproject.models.requestmodels;
 
-public class CredientialEntity {
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class CredientialRequestModel {
     private String username;
     private String password;
 
-    public CredientialEntity(String username, String password) {
+    public CredientialRequestModel() {
+    }
+
+    public CredientialRequestModel(String username, String password) {
         this.username = username;
         this.password = password;
     }

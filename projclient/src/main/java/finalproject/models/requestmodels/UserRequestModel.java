@@ -1,11 +1,17 @@
 package finalproject.models.requestmodels;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class UserRequestModel {
-    String firstname;
-    String lastname;
-    String country;
-    String username;
-    String password;
+    private String firstname;
+    private String lastname;
+    private String country;
+    private String username;
+    private String password;
+
+    public UserRequestModel() {
+    }
 
     public UserRequestModel(String firstname, String lastname, String country, String username, String password) {
         this.firstname = firstname;

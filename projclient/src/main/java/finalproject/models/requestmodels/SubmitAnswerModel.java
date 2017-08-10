@@ -1,10 +1,16 @@
-package finalproject.models.entities;
+package finalproject.models.requestmodels;
 
-public class AnswerEntity {
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class SubmitAnswerModel {
     private String questionId;
     private String response;
 
-    public AnswerEntity(String questionId, String response) {
+    public SubmitAnswerModel() {
+    }
+
+    public SubmitAnswerModel(String questionId, String response) {
         this.questionId = questionId;
         this.response = response;
     }
@@ -24,4 +30,5 @@ public class AnswerEntity {
     public void setResponse(String response) {
         this.response = response;
     }
+
 }

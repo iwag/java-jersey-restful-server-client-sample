@@ -37,5 +37,14 @@ public class UserEntity {
         return password;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", countryLocation='" + countryLocation + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

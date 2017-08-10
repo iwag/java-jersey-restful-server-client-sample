@@ -1,18 +1,17 @@
 package finalproject.models.interfaces;
 
-import finalproject.models.entities.CredientialEntity;
-import finalproject.models.entities.ProfileEntity;
-import finalproject.models.entities.UserEntity;
-import finalproject.models.requestmodels.CredientialEntityModel;
+import finalproject.models.entities.*;
+import finalproject.models.entities.InterviewEntity;
+import finalproject.models.requestmodels.CredientialRequestModel;
+import finalproject.models.requestmodels.SubmitAnswerModel;
+import finalproject.models.requestmodels.SubmitRequestModel;
 import finalproject.models.requestmodels.UserRequestModel;
-import finalproject.models.responsemodels.CredientialResponseModel;
-import finalproject.models.responsemodels.UserResponseModel;
+import finalproject.models.responsemodels.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 public class MapperImplementation {
@@ -22,23 +21,76 @@ public class MapperImplementation {
 
     public static ProfileEntity convertToProfileEntity(UserResponseModel urm) {
         UserEntity ue = new UserEntity(urm.getFirstname(), urm.getLastname(), urm.getCountry(), urm.getUsername(), "");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
 
-        LocalTime date = LocalTime.parse(urm.getJoined(), formatter);
+        LocalDate date = LocalDate.parse(urm.getJoined(), formatter);
 
         return new ProfileEntity(ue, Integer.valueOf(urm.getUserId()), date, "");
     }
 
-    public static CredientialEntityModel convertToCredientialRequestModel(CredientialEntity credientialEntity) {
-        return new CredientialEntityModel();
+    public static CredientialRequestModel convertToCredientialRequestModel(CredientialEntity credientialEntity) {
+        return new CredientialRequestModel();
     }
 
     public static ProfileEntity convertToProfileEntity(CredientialResponseModel crm) {
         UserEntity ue = new UserEntity(crm.getFirstname(), crm.getLastname(), crm.getCountry(), crm.getUsername(), "");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
 
-        LocalTime date = LocalTime.parse(crm.getJoined(), formatter);
-        return new ProfileEntity(ue, Integer.valueOf(crm.getUserId()), date, crm.getAuthToken());
+        LocalDate date = LocalDate.parse(crm.getJoined(), formatter);
+        return new ProfileEntity(ue, Integer.valueOf(crm.getUserId()), date, crm.getAuthtoken());
     }
 
+    public static SubmitRequestModel convertToSubmitRequestModel(AnswerCollectionEntity ace) {
+
+        List<SubmitAnswerModel> list = new LinkedList<>();
+        for (AnswerEntity a : ace.getRespnonses()) {
+            SubmitAnswerModel b = new SubmitAnswerModel(a.getQuestionId(), a.getResponse());
+            list.add(b);
+        }
+        return new SubmitRequestModel(list);
+    }
+
+    public static InterviewResultEntity convertToInterviewResultEntity(SubmitResponseModel submitResponseModel) {
+        return new InterviewResultEntity(
+                Integer.valueOf(submitResponseModel.getInterviewid()),
+                Integer.valueOf(submitResponseModel.getQuestions()),
+                Integer.valueOf(submitResponseModel.getCorrect_answer()),
+                Integer.valueOf(submitResponseModel.getWrong_answer()),
+                Integer.valueOf(submitResponseModel.getSkipped_answer()),
+                submitResponseModel.getTopic(),
+                submitResponseModel.getDuration(),
+                submitResponseModel.getScore()
+        );
+    }
+
+    public static HistoryEntity convertToHistoryEntity(HistoryResponseModel historyResponseModel) {
+        List<HistoryEntryEntity> list = new LinkedList<>();
+        for (HistoryEntryResponseModel a : historyResponseModel.getHistory()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+
+            LocalDate date = LocalDate.parse(a.getDate(), formatter);
+            HistoryEntryEntity b = new HistoryEntryEntity(a.getTopic(), date, a.getScore());
+            list.add(b);
+        }
+
+        return new HistoryEntity(list);
+    }
+
+    public static InterviewEntity convertToInterviewEntity(InterviewResponseModel interviewResponseModel) {
+
+        List<InterviewQuestionEntity> list = new LinkedList<>();
+        for (InterviewQuestionResponseModel a : interviewResponseModel.getInterviewquestions()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+
+            InterviewQuestionEntity b = new InterviewQuestionEntity(a.getDescription(), a.getItem1(), a.getItem2(), a.getItem3(), a.getItem4(),
+                    Integer.valueOf(a.getDifficultyLevel()), Integer.valueOf(a.getQuestionid()));
+            list.add(b);
+        }
+
+        return new InterviewEntity(Integer.valueOf(interviewResponseModel.getInterviewid()),
+                Integer.valueOf(interviewResponseModel.getQuestions()),
+                interviewResponseModel.getTopic(),
+                Integer.valueOf(interviewResponseModel.getDuration()),
+                list);
+    }
 }

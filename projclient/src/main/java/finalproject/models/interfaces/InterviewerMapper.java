@@ -1,12 +1,11 @@
 package finalproject.models.interfaces;
 
-import finalproject.models.entities.CredientialEntity;
-import finalproject.models.entities.ProfileEntity;
-import finalproject.models.entities.UserEntity;
-import finalproject.models.requestmodels.CredientialEntityModel;
+import finalproject.models.entities.*;
+import finalproject.models.entities.InterviewEntity;
+import finalproject.models.requestmodels.CredientialRequestModel;
+import finalproject.models.requestmodels.SubmitRequestModel;
 import finalproject.models.requestmodels.UserRequestModel;
-import finalproject.models.responsemodels.CredientialResponseModel;
-import finalproject.models.responsemodels.UserResponseModel;
+import finalproject.models.responsemodels.*;
 
 public class InterviewerMapper {
 
@@ -18,7 +17,7 @@ public class InterviewerMapper {
         return mapper.convert(ue);
     }
 
-    public static CredientialEntityModel convertToCredientialRequestModel(CredientialEntity ce, MapFunction<CredientialEntity, CredientialEntityModel> mapper) {
+    public static CredientialRequestModel convertToCredientialRequestModel(CredientialEntity ce, MapFunction<CredientialEntity, CredientialRequestModel> mapper) {
         return mapper.convert(ce);
     }
 
@@ -26,4 +25,20 @@ public class InterviewerMapper {
         return mapper.convert(ue);
     }
 
+    public static SubmitRequestModel convertToSubmitRequestModel(AnswerCollectionEntity ace, MapFunction<AnswerCollectionEntity, SubmitRequestModel> mapper) {
+        return mapper.convert(ace);
+    }
+
+    public static InterviewResultEntity convertToInterviewResultEntity(SubmitResponseModel submitResponseModel, MapFunction<SubmitResponseModel, InterviewResultEntity> mapper) {
+        return mapper.convert(submitResponseModel);
+    }
+
+    public static HistoryEntity convertToHistoryEntity(HistoryResponseModel historyResponseModel, MapFunction<HistoryResponseModel, HistoryEntity> mapper) {
+        return mapper.convert(historyResponseModel);
+    }
+
+    public static InterviewEntity convertToInterviewEntity(InterviewResponseModel interviewResponseModel, MapFunction<InterviewResponseModel, InterviewEntity> mapper) {
+        return mapper.convert(interviewResponseModel);
+
+    }
 }

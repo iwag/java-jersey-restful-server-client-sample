@@ -1,23 +1,28 @@
 package finalproject.models.responsemodels;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CredientialResponseModel {
+    private String firstname;
+    private String lastname;
+    private String userId;
+    private String username;
+    private String country;
+    private String joined;
+    private String authtoken;
 
-    String firstname;
-    String lastname;
-    String userId;
-    String username;
-    String country;
-    String joined;
-    String authToken;
+    public CredientialResponseModel() {
+    }
 
-    public CredientialResponseModel(String firstname, String lastname, String userId, String username, String country, String joined, String authToken) {
+    public CredientialResponseModel(String firstname, String lastname, String userId, String username, String country, String joined, String authtoken) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.userId = userId;
         this.username = username;
         this.country = country;
         this.joined = joined;
-        this.authToken = authToken;
+        this.authtoken = authtoken;
     }
 
     public String getFirstname() {
@@ -44,8 +49,35 @@ public class CredientialResponseModel {
         return joined;
     }
 
-    public String getAuthToken() {
-        return authToken;
+    public String getAuthtoken() {
+        return authtoken;
     }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setJoined(String joined) {
+        this.joined = joined;
+    }
+
+    public void setAuthtoken(String authtoken) {
+        this.authtoken = authtoken;
+    }
 }
