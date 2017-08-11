@@ -1,14 +1,14 @@
 package io.github.iwag.jerseystarter;
 
-import io.github.iwag.jerseystarter.resources.User;
+import io.github.iwag.jerseystarter.resources.TaskResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 
 import javax.ws.rs.core.Application;
 
-public class UserTest extends JerseyTest {
+public class TaskTest extends JerseyTest {
     @Override
     protected Application configure() {
-        return new ResourceConfig(User.class);
+        return new ResourceConfig(TaskResource.class);
     }
 }
