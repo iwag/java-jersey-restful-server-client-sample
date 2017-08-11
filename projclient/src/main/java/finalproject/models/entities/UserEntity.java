@@ -1,12 +1,11 @@
 package finalproject.models.entities;
 
 public class UserEntity {
-    String firstName;
-    String lastName;
-    String countryLocation;
-    String userName;
-    String password;
-
+    protected String firstName;
+    protected String lastName;
+    protected String countryLocation;
+    protected String userName;
+    protected String password;
 
     public UserEntity(String firstName, String lastName, String countryLocation, String userName, String password) {
         this.firstName = firstName;
@@ -15,7 +14,6 @@ public class UserEntity {
         this.userName = userName;
         this.password = password;
     }
-
 
     public String getFirstName() {
         return firstName;

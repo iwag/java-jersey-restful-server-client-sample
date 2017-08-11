@@ -15,7 +15,7 @@ public class InterviewSelectionController {
         this.apiManager = apiManager;
     }
 
-    public InterviewEntity history() {
+    public InterviewEntity interview() {
 
         Scanner scanner = new Scanner(System.in);
 //        String topic = scanner.next();

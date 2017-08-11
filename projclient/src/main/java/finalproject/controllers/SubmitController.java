@@ -7,6 +7,7 @@ import finalproject.models.entities.InterviewResultEntity;
 import finalproject.models.entities.ProfileEntity;
 import finalproject.models.managers.APIManager;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class SubmitController {
@@ -17,10 +18,16 @@ public class SubmitController {
     }
 
 
-    public InterviewResultEntity submit(AnswerCollectionEntity ae) {
-        InterviewResultEntity pe = apiManager.submit(ae);
+    public InterviewResultEntity submit(ProfileEntity pe, AnswerCollectionEntity ae) {
+        InterviewResultEntity re = apiManager.submit(ae);
 
-        return pe;
+        System.out.printf("Dear %s %s. Here is your result:\n", pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName());
+        System.out.println("Date of Test: " + LocalDate.now().toString() + " Your score: " + re.getScore());
+        System.out.printf(" Total number of questions: %d\n", re.getQuestions());
+        System.out.printf(" Correct responses: %d\n",re.getCorrectAnswer());
+        System.out.printf(" Wrong responses: %d Skipped responses: %d The level of\n", re.getCorrectAnswer(), re.getSkippedAnswer());
+
+        return re;
     }
 
 }

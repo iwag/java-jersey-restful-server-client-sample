@@ -30,4 +30,8 @@ public class CredientialRequestModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public boolean validate() {
+        return username != null && password != null;
+    }
 }

@@ -13,8 +13,7 @@ public class SubmitResponseModel {
     private String duration;
     private String score;
 
-    public SubmitResponseModel() {
-    }
+    public SubmitResponseModel() {}
 
     public SubmitResponseModel(String interviewid, String questions, String correct_answer, String wrong_answer, String skipped_answer, String topic, String duration, String score) {
         this.interviewid = interviewid;

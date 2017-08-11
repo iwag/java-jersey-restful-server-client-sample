@@ -7,6 +7,7 @@ import finalproject.models.entities.UserEntity;
 import finalproject.models.managers.APIManager;
 import finalproject.models.responsemodels.CredientialResponseModel;
 
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class LoginController extends BaseController {
@@ -16,20 +17,28 @@ public class LoginController extends BaseController {
         this.apiManager = apiManager;
     }
 
-
     public ProfileEntity login() {
+        Scanner scanner = new Scanner(System.in);
 
-        String userName = "gami@example.com";
-        String password = "iwakami";
+        System.out.println("Login:");
+        System.out.println("* Username:");
+        String userName = scanner.next();
+
+        System.out.println("* Password:");
+        String password = scanner.next();
+
+//        String userName = "gami@example.com";
+//        String password = "iwakami";
 
         Pattern p = Pattern.compile("^[0-9a-zA-Z_\\-]+@[.0-9a-zA-Z_\\-]+$");
         StringValidatePredicator stringValidatePredicator = new StringValidatePredicator();
-        stringValidatePredicator.evaluate(userName, p);
+        if (stringValidatePredicator.evaluate(userName, p) == false) {
+            return null;
+        }
 
         CredientialEntity credientialEntity = new CredientialEntity(userName, password);
 
         ProfileEntity pe = apiManager.login(credientialEntity);
-
         return pe;
     }
 

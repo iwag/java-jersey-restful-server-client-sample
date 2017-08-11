@@ -1,19 +1,19 @@
 package finalproject.models.requestmodels;
 
-import finalproject.models.entities.AnswerEntity;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement
 public class SubmitRequestModel {
+    private String userId;
     private List<SubmitAnswerModel> respnonses;
 
     public SubmitRequestModel() {
 
     }
 
-    public SubmitRequestModel(List<SubmitAnswerModel> respnonses) {
+    public SubmitRequestModel(String userId, List<SubmitAnswerModel> respnonses) {
+        this.userId = userId;
         this.respnonses = respnonses;
     }
 
@@ -23,5 +23,13 @@ public class SubmitRequestModel {
 
     public void setRespnonses(List<SubmitAnswerModel> respnonses) {
         this.respnonses = respnonses;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public boolean validate() {
+        return userId !=null;
     }
 }

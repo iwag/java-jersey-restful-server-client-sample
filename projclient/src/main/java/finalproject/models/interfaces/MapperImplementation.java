@@ -43,11 +43,11 @@ public class MapperImplementation {
     public static SubmitRequestModel convertToSubmitRequestModel(AnswerCollectionEntity ace) {
 
         List<SubmitAnswerModel> list = new LinkedList<>();
-        for (AnswerEntity a : ace.getRespnonses()) {
+        for (AnswerEntity a : ace) {
             SubmitAnswerModel b = new SubmitAnswerModel(a.getQuestionId(), a.getResponse());
             list.add(b);
         }
-        return new SubmitRequestModel(list);
+        return new SubmitRequestModel(ace.getInterviewId().toString(), list);
     }
 
     public static InterviewResultEntity convertToInterviewResultEntity(SubmitResponseModel submitResponseModel) {
@@ -65,7 +65,7 @@ public class MapperImplementation {
 
     public static HistoryEntity convertToHistoryEntity(HistoryResponseModel historyResponseModel) {
         List<HistoryEntryEntity> list = new LinkedList<>();
-        for (HistoryEntryResponseModel a : historyResponseModel.getHistory()) {
+        for (HistoryEntryResponseModel a : historyResponseModel) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
 
             LocalDate date = LocalDate.parse(a.getDate(), formatter);
@@ -79,7 +79,7 @@ public class MapperImplementation {
     public static InterviewEntity convertToInterviewEntity(InterviewResponseModel interviewResponseModel) {
 
         List<InterviewQuestionEntity> list = new LinkedList<>();
-        for (InterviewQuestionResponseModel a : interviewResponseModel.getInterviewquestions()) {
+        for (InterviewQuestionResponseModel a : interviewResponseModel) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
 
             InterviewQuestionEntity b = new InterviewQuestionEntity(a.getDescription(), a.getItem1(), a.getItem2(), a.getItem3(), a.getItem4(),

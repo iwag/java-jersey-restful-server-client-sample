@@ -18,13 +18,14 @@ import javax.ws.rs.core.MediaType;
 public class APIManager {
     private Client client = ClientBuilder.newClient();
 
+    private String baseUrl = "http://localhost:4567";
 
     public ProfileEntity createUser(UserEntity ue) {
         // UserEntity => UserRequestModel
         UserRequestModel userRequestModel = InterviewerMapper.convert(ue, MapperImplementation::convertUserRequestModel);
 
         // send a request (POST) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/users");
+        WebTarget webTarget = client.target(baseUrl).path("/interview/users");
 
         UserResponseModel userResponseModel = null;
         try {
@@ -46,7 +47,7 @@ public class APIManager {
         CredientialRequestModel requestModel = InterviewerMapper.convertToCredientialRequestModel(ce, MapperImplementation::convertToCredientialRequestModel);
 
         // send a request (POST) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/login");
+        WebTarget webTarget = client.target(baseUrl).path("/interview/login");
 
         CredientialResponseModel credientialResponseModel = null;
         try {
@@ -63,7 +64,7 @@ public class APIManager {
     public InterviewEntity getInterviewer(InterviewSelectionModel model) {
         // InterviewSelectionModel => InterviewSelectionRequestModel
         // send a request (GET) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/topics/" + model.getTopics());
+        WebTarget webTarget = client.target(baseUrl).path("/interview/topics/" + model.getTopics());
 
         InterviewResponseModel interviewResponseModel = null;
         try {
@@ -79,7 +80,7 @@ public class APIManager {
         SubmitRequestModel requestModel = InterviewerMapper.convertToSubmitRequestModel(ace, MapperImplementation::convertToSubmitRequestModel);
 
         // send a request (POST) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/" + ace.getId());
+        WebTarget webTarget = client.target(baseUrl).path("/interview/" + ace.getInterviewId());
 
         SubmitResponseModel submitResponseModel = null;
         try {
@@ -95,7 +96,7 @@ public class APIManager {
 
     public HistoryEntity history(Integer userId) {
         // send a request (GET) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/history/user/" + userId);
+        WebTarget webTarget = client.target(baseUrl).path("/interview/history/user/" + userId);
 
         HistoryResponseModel historyResponseModel = null;
         try {
@@ -108,7 +109,7 @@ public class APIManager {
 
     public InterviewEntity interview(InterviewSelectionModel interviewSelectionModel) {
         // send a request (GET) & get a response
-        WebTarget webTarget = client.target("http://localhost:4567").path("/interview/topic/" + interviewSelectionModel.getTopics());
+        WebTarget webTarget = client.target(baseUrl).path("/interview/topic/" + interviewSelectionModel.getTopics());
 
         InterviewResponseModel interviewResponseModel = null;
         try {

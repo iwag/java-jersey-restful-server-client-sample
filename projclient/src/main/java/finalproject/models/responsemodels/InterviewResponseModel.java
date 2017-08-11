@@ -1,10 +1,11 @@
 package finalproject.models.responsemodels;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Iterator;
 import java.util.List;
 
 @XmlRootElement
-public class InterviewResponseModel {
+public class InterviewResponseModel implements Iterable<InterviewQuestionResponseModel>{
 
     private String interviewid;
     private String questions;
@@ -12,6 +13,9 @@ public class InterviewResponseModel {
     private String duration;
 
     List<InterviewQuestionResponseModel> interviewquestions;
+
+    public InterviewResponseModel() {
+    }
 
     public InterviewResponseModel(String interviewid, String questions, String topic, String duration, List<InterviewQuestionResponseModel> interviewquestions) {
         this.interviewid = interviewid;
@@ -59,5 +63,10 @@ public class InterviewResponseModel {
 
     public void setInterviewquestions(List<InterviewQuestionResponseModel> interviewquestions) {
         this.interviewquestions = interviewquestions;
+    }
+
+    @Override
+    public Iterator<InterviewQuestionResponseModel> iterator() {
+        return interviewquestions.iterator();
     }
 }

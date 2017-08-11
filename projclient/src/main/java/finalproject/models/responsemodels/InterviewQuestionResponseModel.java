@@ -12,6 +12,10 @@ private String description;
     private String difficultyLevel;
     private String questionid;
 
+    public InterviewQuestionResponseModel() {
+
+    }
+
     public InterviewQuestionResponseModel(String description, String item1, String item2, String item3, String item4, String difficultyLevel, String questionid) {
         this.description = description;
         this.item1 = item1;

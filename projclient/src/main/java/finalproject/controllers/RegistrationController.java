@@ -20,20 +20,29 @@ public class RegistrationController {
      */
     public ProfileEntity buildUser() {
         Scanner scanner = new Scanner(System.in);
-//        String firstName = scanner.next();
-//        String lastName = scanner.next();
-//        String countryLocation = scanner.next();
-//        String userName = scanner.next();
-//        String password = scanner.next();
-        String firstName = "takuya";
-        String lastName = "iwakami";
-        String countryLocation = "japan";
-        String userName = "gami@example.com";
-        String password = "iwakami";
+
+       System.out.println("Registration:");
+        System.out.println("* Firstname:");
+        String firstName = scanner.next();
+        System.out.println("* Lastname");
+        String lastName = scanner.next();
+        System.out.println("* Country of Location:");
+        String countryLocation = scanner.next();
+        System.out.println("* Username:");
+        String userName = scanner.next();
+        System.out.println("* Password:");
+        String password = scanner.next();
+//        String firstName = "takuya";
+//        String lastName = "iwakami";
+//        String countryLocation = "japan";
+//        String userName = "gami@example.com";
+//        String password = "iwakami";
 
         Pattern p = Pattern.compile("^[0-9a-zA-Z_\\-]+@[.0-9a-zA-Z_\\-]+$");
         StringValidatePredicator stringValidatePredicator = new StringValidatePredicator();
-        stringValidatePredicator.evaluate(firstName, p);
+        if (stringValidatePredicator.evaluate(userName, p) == false) {
+            return null;
+        }
 
         UserEntity userEntity = new UserEntity(firstName, lastName, countryLocation, userName, password);
 

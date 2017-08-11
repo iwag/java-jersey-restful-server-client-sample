@@ -1,10 +1,11 @@
 package finalproject.models.responsemodels;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Iterator;
 import java.util.List;
 
 @XmlRootElement
-public class HistoryResponseModel {
+public class HistoryResponseModel implements Iterable<HistoryEntryResponseModel> {
     private List<HistoryEntryResponseModel> history;
 
     public HistoryResponseModel() {
@@ -14,11 +15,16 @@ public class HistoryResponseModel {
         this.history = history;
     }
 
+    public void setHistory(List<HistoryEntryResponseModel> history) {
+        this.history = history;
+    }
+
     public List<HistoryEntryResponseModel> getHistory() {
         return history;
     }
 
-    public void setHistory(List<HistoryEntryResponseModel> history) {
-        this.history = history;
+    @Override
+    public Iterator<HistoryEntryResponseModel> iterator() {
+        return history.iterator();
     }
 }
