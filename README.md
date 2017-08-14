@@ -117,12 +117,25 @@ Date: Mon, 14 Aug 2017 10:43:45 GMT
 Content-Length: 0
 Server: Jetty(9.3.3.v20150827)
 
-$ curl -XDELETE -i -H "Content-Type: application/json" 'localhost:8080/task'                                     
+$ curl -XDELETE -i -H "Content-Type: application/json" 'localhost:8080/task'
 HTTP/1.1 202 Accepted
 Date: Mon, 14 Aug 2017 10:43:55 GMT
 Content-Length: 0
 Server: Jetty(9.3.3.v20150827)
 ```
+
+To deal with path parameter, use Path and PathParam annotations.
+
+```
+    @GET
+	@Path("{id}") // match a value of PathParam
+    @Produces({MediaType.APPLICATION_JSON})
+    public Task[] get(@PathParam("id") String id) {
+        return new Task[]{new Task("sample", 0, "2017/08/10")};
+    }
+```
+
+Now we can get by this path "localhost:8080/task/0" and 0 is set in argument id.
 
 ## JAXB tip
 
@@ -132,4 +145,14 @@ Use XmlElement annotation to change field name.
 ```Task.java
     @XmlElement(name = "until_date")
     private String untilDate;
+```
+
+If it returns as JSArray, just take a []
+
+```
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Task[] gets() {
+        return new Task[]{new Task("sample", 0, "2017/08/10")};
+    }
 ```

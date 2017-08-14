@@ -11,20 +11,29 @@ public class TaskResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Task get() {
+    public Task[] gets() {
+        return new Task[]{new Task("sample", 0, "2017/08/10")};
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("{id}")
+    public Task get(@PathParam("id") String id) {
         return new Task("sample", 0, "2017/08/10");
     }
 
     @DELETE
-    public Response delete() {
+    @Path("{id}")
+    public Response delete(@PathParam("id") String id) {
         // write deleting code
         return Response.status(Response.Status.ACCEPTED).build();
     }
 
     @POST
+    @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response update(Task t) {
-        System.out.println(t);
+    public Response update(@PathParam("id") String id, Task t) {
+        System.out.println(id + " " + t);
         // write deleting code
         return Response.status(Response.Status.ACCEPTED).build();
     }
