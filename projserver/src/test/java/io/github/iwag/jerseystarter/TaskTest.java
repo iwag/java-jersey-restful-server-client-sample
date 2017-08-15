@@ -18,7 +18,7 @@ public class TaskTest extends JerseyTest {
     @Test
     public void testGetTask0Normal() throws Exception {
         Task task = target("task/0").request().get(Task.class);
-        Task expected = new Task("sample", 0, "2017/08/10");
+        Task expected = new Task("0", "sample", 0, "2017/08/10");
 
         Assert.assertEquals(task, expected);
     }

@@ -12,14 +12,14 @@ public class TaskResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Task[] gets() {
-        return new Task[]{new Task("sample", 0, "2017/08/10")};
+        return new Task[]{new Task("0", "sample", 0, "2017/08/10")};
     }
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("{id}")
     public Task get(@PathParam("id") String id) {
-        return new Task("sample", 0, "2017/08/10");
+        return new Task(id, "sample", 0, "2017/08/10");
     }
 
     @DELETE

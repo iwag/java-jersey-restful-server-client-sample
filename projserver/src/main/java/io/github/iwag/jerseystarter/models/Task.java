@@ -10,12 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement // important
 public class Task {
+    private String id;
     private String description;
     private Integer priority;
     @XmlElement(name = "until_date")
     private String untilDate;
 
-    public Task(String description, Integer priority, String untilDate) {
+    public Task(String id, String description, Integer priority, String untilDate) {
+        this.id = id;
         this.description = description;
         this.priority = priority;
         this.untilDate = untilDate;

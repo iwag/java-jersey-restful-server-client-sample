@@ -3,6 +3,14 @@
 # java-jersey-restful-server-client-sample
 RESTful Server/Client sample with Jersey in Java8
 
+## Table of Contents
+
+1. [How to run](#how_to_run)
+2. [Make A Simple Server](#make_simple_crud)
+
+# Server
+
+<a name="how_to_run"></a>
 ## How to run a server
 
 ```bash
@@ -10,7 +18,7 @@ cd projserver
 mvn test clean package
 java -jar target/dependency/jetty-runner.jar target/*.war
 ```
-
+<a name="make_simple_crud"></a>
 # Make a simple CRUD server
 
 First of all, we need to create a model class. This class is a resouce and subject to deal with API.
@@ -37,7 +45,7 @@ public class Task {
 Next, create a resouce class with GET method.
 
 ```TaskResource.java
-@Path("task") // is supporsed to be http://BASE_URL/task 
+@Path("task") // is supporsed to be http://BASE_URL/task
 public class TaskResource {
 
     @GET
@@ -126,7 +134,7 @@ Server: Jetty(9.3.3.v20150827)
 
 To deal with path parameter, use Path and PathParam annotations.
 
-```
+```java
     @GET
 	@Path("{id}") // match a value of PathParam
     @Produces({MediaType.APPLICATION_JSON})
@@ -149,10 +157,154 @@ Use XmlElement annotation to change field name.
 
 If it returns as JSArray, just take a []
 
-```
+```java
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Task[] gets() {
         return new Task[]{new Task("sample", 0, "2017/08/10")};
     }
+```
+
+<a name="client_side"></a>
+# Client side
+
+## Simple Client for CRUD
+
+We'd like to follow Repository Pattern. It gives many benefits so easily to create test case. Make all CRUD methods in Repository interface.
+
+```java
+interface TaskRepository {
+    Task[] gets();
+    Task get(String id);
+    boolean create(Task t);
+    boolean update(String id, Task t);
+    boolean delete(String id);
+}
+```
+
+Implement ApiTaskRepository class with the interface. Here we need to implement using jersey client and call API server.
+
+```java
+public class ApiTaskRepository implements TaskRepository {
+    @Override
+    public Task[] gets() {
+        // Write API requesting code
+        return new Task[0];
+    }
+
+    @Override
+    public Task get(String id) {
+        // Write API requesting code
+        return null;
+    }
+
+    @Override
+    public boolean create(Task t) {
+        // Write API requesting code
+        return true;
+    }
+
+    @Override
+    public boolean update(String id, Task t) {
+        // Write API requesting code
+        return true;
+    }
+
+    @Override
+    public boolean delete(String id) {
+        // Write API requesting code
+        return true;
+    }
+}
+```
+
+First of all, set some constant parameters in constructor.
+
+```
+public class ApiTaskRepository implements TaskRepository {
+    private final String baseUrl = "http://localhost:8080";
+    private final Client client;
+
+    public ApiTaskRepository() {
+        // create client instance
+        client = ClientBuilder.newClient();
+    }
+```
+
+Lets create GET api. Write following code in ApiTaskRepository.java.
+
+```java
+@Override
+public Task get(String id) {
+    // make web target by url
+    WebTarget webTarget = client.target(baseUrl).path("/task/" + id);
+
+    Response res = null;
+    // request by GET method without body
+    res = webTarget.request(MediaType.TEXT_PLAIN).accept("application/json").get();
+    // check response. For now we're checking only status code.
+    if (res.getStatus() != Response.Status.OK.getStatusCode()) {
+        return null;
+    }
+    // translate response body into Task class
+    Task task = res.readEntity(Task.class);
+
+    return task;
+}
+
+```
+
+For API request, there are two important things to make sure, path and response.
+Path is ensured in `target("http://localhost:8080").path("/task/" + id)` and we set Task.class in `.get(Task.class)` to map Task class then we receive a response as Task class.
+
+How about POST method?
+
+```java
+@Override
+public boolean create(Task t) {
+    WebTarget webTarget = client.target(baseUrl).path("/task");
+
+    Response res = null;
+    Entity<?> entity = Entity.entity(t, MediaType.APPLICATION_JSON); // convert class to accept by jersey
+    res = webTarget.request(MediaType.APPLICATION_JSON).accept("application/json").post(entity);
+    // check if getting correct status code (ACCEPTED)
+    if (res.getStatus() != Response.Status.ACCEPTED.getStatusCode()) {
+        return false;
+    }
+    return true;
+}
+```
+
+Finally, introduce Main.java in client side.
+
+```java
+
+public class Main {
+
+    public static void main(String[] args) throws java.lang.Exception {
+        ApiTaskRepository taskRepository = new ApiTaskRepository();
+        System.out.println("GET /task/0 " + taskRepository.get("0"));
+        System.out.println("PUT /task " + taskRepository.create(new Task(null, "aaa", 1, "2017/08/14")));
+        return ;
+    }
+}
+```
+
+
+Run server program.
+
+```java
+$ cd projserver
+$ mvn package
+$ java -jar target/dependency/jetty-runner.jar target/\*.war
+```
+
+Along with that, run client program by launching IntelliJ `Run as ...` at Main.java.
+It would show following output.
+
+```
+GET /task/0 Task{description='sample', priority=0, untilDate='2017/08/10'}
+PUT /task true
+
+Process finished with exit code 0
 ```
