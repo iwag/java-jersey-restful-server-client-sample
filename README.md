@@ -218,9 +218,30 @@ public class ApiTaskRepository implements TaskRepository {
 }
 ```
 
-First of all, set some constant parameters in constructor.
+Lets create test case at first. In addition, this test utilizes technique so called mocking.
 
+```java
+public class TaskTest extends Mockito {
+  static Client mockClient(Response.Status status, Task t) {
+    // see
+    ...
+  }
+
+  @Test
+  public void testGetTask0_OK() {
+      Task expected = new Task();
+      Client clientMock = mockClient(Response.Status.OK, expected);
+      Task t = new ApiTaskRepository(clientMock).get("0");
+      Assert.assertEquals(t, expected);
+  }
 ```
+
+If you run this test, you can see a failure.
+
+Second of all, set some constant parameters in constructor.
+Client is a class to request an API server which can use one more times so it should be a field of class.
+
+```java
 public class ApiTaskRepository implements TaskRepository {
     private final String baseUrl = "http://localhost:8080";
     private final Client client;
@@ -254,10 +275,21 @@ public Task get(String id) {
 
 ```
 
+Now, you can see green light when executing a test.
+
 For API request, there are two important things to make sure, path and response.
 Path is ensured in `target("http://localhost:8080").path("/task/" + id)` and we set Task.class in `.get(Task.class)` to map Task class then we receive a response as Task class.
 
 How about POST method?
+
+```java
+@Test
+public void testCreate_OK() {
+    Client clientMock = mockClient(Response.Status.ACCEPTED, null);
+    boolean success = new ApiTaskRepository(clientMock).create(new Task(null, "test", 0, "2017/08/15"));
+    Assert.assertTrue(success);
+}
+```
 
 ```java
 @Override

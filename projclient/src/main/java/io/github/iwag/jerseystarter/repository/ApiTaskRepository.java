@@ -3,10 +3,7 @@ package io.github.iwag.jerseystarter.repository;
 import io.github.iwag.jerseystarter.models.Task;
 
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
