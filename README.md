@@ -183,6 +183,87 @@ If it returns as JSArray, just take a []
     }
 ```
 
+# Test on server
+
+## Introduce DI (Dependency Injection)
+Install [hk2 (JSR-330) library](https://javaee.github.io/hk2/)
+
+TODO text 
+
+```TaskService.java
+@Contract
+interface TaskService {
+   Task get(String id);
+}
+```
+
+```TaskServiceImpl.java
+@Service
+interface TaskServiceImpl {
+   Task get(String id) {
+      return new Task();
+   }
+}
+```
+
+```TaskResource.java
+@Path("task")
+public class TaskResource {
+   @Inject
+   TaskService taskService;
+   ...
+}
+```
+
+```TaskConfig.java
+@ApplicationPath("rest")
+public class TaskConfig extends ResourceConfig {
+
+    public TaskConfig() {
+        packages(this.getClass().getPackage().getName());
+
+        register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bind(TaskServiceImpl.class).to(TaskService.class);
+            }
+        });
+    }
+}
+```
+
+## Server side test with DI
+
+```
+public class TestTask extends JerseyTest {
+
+    @Service
+    static class TaskServiceMock implements TaskService {
+        static UserEntity userEntity = null;
+
+        public TaskServiceMock() {
+        }
+
+        // implement these for test
+    }
+
+    @Override
+    protected Application configure() {
+        return new ResourceConfig(TaskResource.class).register(new AbstractBinder() {
+            @Override
+            protected void configure() {
+                bind(TaskServiceMock.class).to(TaskService.class);
+            }
+        });
+    }
+
+    @Test
+    public testGetTask0() {
+    ...
+    }
+
+```
+
 <a name="simple_client"></a>
 # Simple Client for CRUD
 
@@ -239,7 +320,7 @@ Lets create test case at first. In addition, this test utilizes technique so cal
 ```java
 public class TaskTest extends Mockito {
   static Client mockClient(Response.Status status, Task t) {
-    // see
+    // see  https://github.com/iwag/java-jersey-restful-server-client-sample/blob/55e07a8de20f9f37624cfa8699b5ad245e33424b/projclient/src/test/java/io/github/iwag/jerseystarter/TaskTest.java#L18
     ...
   }
 
