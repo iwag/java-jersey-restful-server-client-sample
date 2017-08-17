@@ -1,36 +1,26 @@
 package finalproject.main;
 
-import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.eclipse.jetty.server.Server;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.eclipse.jetty.webapp.WebAppContext;
 
-import java.io.IOException;
-import java.net.URI;
-
-/**
- * Main class.
- */
 public class Main {
-    // Base URI the Grizzly HTTP server will listen on
-    public static final String BASE_URI = "http://localhost:8080";
+    public static final Integer PORT = 8080;
 
-    public static HttpServer startServer() {
-        final ResourceConfig rc = new ResourceConfig().packages("finalproject");
+    public static void main(String[] args) throws Exception {
+        final Server server = new Server(Integer.valueOf(PORT));
+        final WebAppContext root = new WebAppContext();
 
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
-    }
+        root.setContextPath("/");
+        root.setParentLoaderPriority(true);
 
-    /**
-     * Main method.
-     *
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
+        final String webappDirLocation = "src/main/webapp/";
+        root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
+        root.setResourceBase(webappDirLocation);
+
+        server.setHandler(root);
+
+        server.start();
+        server.join();
     }
 }
