@@ -143,7 +143,7 @@ To deal with path parameter, use Path and PathParam annotations.
     }
 ```
 
-Now we can get by this path "localhost:8080/task/0" and 0 is set in argument id.
+Now we can get by this path "localhost:8080/task/0" and set 0 at argument id.
 
 ## JAXB tip
 
@@ -328,11 +328,11 @@ Run server program.
 ```java
 $ cd projserver
 $ mvn package
-$ java -jar target/dependency/jetty-runner.jar target/\*.war
+$ java -jar target/dependency/jetty-runner.jar target/*.war
 ```
 
-Along with that, run client program by launching IntelliJ `Run as ...` at Main.java.
-It would show following output.
+Along with that, let's run client program by launching IntelliJ `Run as ...` at Main.java.
+It will show following output.
 
 ```
 GET /task/0 Task{description='sample', priority=0, untilDate='2017/08/10'}
