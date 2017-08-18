@@ -1,10 +1,10 @@
-package finalproject.views;
+package io.github.iwag.finalproj.views;
 
 
-import finalproject.controllers.*;
-import finalproject.models.entities.*;
-import finalproject.models.managers.APIManager;
-import finalproject.models.managers.CredentialManager;
+import io.github.iwag.finalproj.controllers.*;
+import io.github.iwag.finalproj.models.entities.*;
+import io.github.iwag.finalproj.models.managers.APIManager;
+import io.github.iwag.finalproj.models.managers.CredentialManager;
 
 import java.util.*;
 import java.lang.*;
@@ -18,7 +18,6 @@ public class Main {
         while (true) {
             boolean t = MenuController.mainMenu(apiManager, credentialManager);
             if (t) break;
-            MenuController.interviewMenu(apiManager, credentialManager);
         }
 
         return ;
