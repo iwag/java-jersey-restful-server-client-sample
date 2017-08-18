@@ -1,23 +1,39 @@
-[![Build Status](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample.svg?branch=master)](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample)
 
 # java-jersey-restful-server-client-sample
-RESTful Server/Client sample with Jersey in Java8
+[![Build Status](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample.svg?branch=master)](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample)
 
-## Table of Contents
+RESTful sample with [Jersey](https://jersey.github.io/) Server/Client in Java8. This sample is simple ToDo Application in Command line interface. 
+
+# Features
+
+* [Server side project](./projserver)
+* [Client side code](./projclient)
+* [Step-by-Step guide to build a API server/client](./README.md#make_simple_crud) 
+
+# Table of Contents
 
 1. [How to run](#how_to_run)
 2. [Make A Simple Server](#make_simple_crud)
 
-# Server
-
 <a name="how_to_run"></a>
-## How to run a server
+# How to run
+
+Server:
 
 ```bash
 cd projserver
 mvn test clean package
 java -jar target/dependency/jetty-runner.jar target/*.war
 ```
+
+Client:
+
+```
+cd projclient
+mvn package
+java -jar ...
+```
+
 <a name="make_simple_crud"></a>
 # Make a simple CRUD server
 
@@ -145,6 +161,7 @@ To deal with path parameter, use Path and PathParam annotations.
 
 Now we can get by this path "localhost:8080/task/0" and set 0 at argument id.
 
+<a name="jaxb_tip"></a>
 ## JAXB tip
 
 Sometimes field names in Java is not appropriate for JSON convention such as mixup between snake_case and camelCase.
@@ -165,10 +182,8 @@ If it returns as JSArray, just take a []
     }
 ```
 
-<a name="client_side"></a>
-# Client side
-
-## Simple Client for CRUD
+<a name="simple_client"></a>
+# Simple Client for CRUD
 
 We'd like to follow Repository Pattern. It gives many benefits so easily to create test case. Make all CRUD methods in Repository interface.
 
@@ -323,13 +338,8 @@ public class Main {
 ```
 
 
-Run server program.
+Run server program(see above instruction).
 
-```java
-$ cd projserver
-$ mvn package
-$ java -jar target/dependency/jetty-runner.jar target/*.war
-```
 
 Along with that, let's run client program by launching IntelliJ `Run as ...` at Main.java.
 It will show following output.
