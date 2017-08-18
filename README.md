@@ -1,6 +1,7 @@
 
 # java-jersey-restful-server-client-sample
 [![Build Status](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample.svg?branch=master)](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 RESTful sample with [Jersey](https://jersey.github.io/) Server/Client in Java8. This sample is simple ToDo Application in Command line interface. 
 
