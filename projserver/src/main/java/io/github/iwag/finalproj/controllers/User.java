@@ -12,6 +12,7 @@ import io.github.iwag.finalproj.store.MySQLUserStore;
 import io.github.iwag.finalproj.store.Stores;
 import io.github.iwag.finalproj.store.UserStore;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,12 +28,8 @@ import java.util.UUID;
 
 @Path("users")
 public class User {
+    @Inject
     UserStore userStore;
-
-    public User() throws SQLException {
-
-        userStore = new MySQLUserStore();
-    }
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
@@ -40,7 +37,7 @@ public class User {
     public UserResponseModel create(UserRequestModel ur) {
         if (!ur.validate()) {
             System.err.println("password invalid" + ur);
-            throw new OurApplicationException(Response.Status.BAD_REQUEST, "input invalid");
+            throw new OurApplicationException(Response.Status.BAD_REQUEST.getStatusCode(), "input invalid");
         }
 
         ExUserEntity eue = userStore.addUser(new UserEntity(ur.getFirstname(), ur.getLastname(), ur.getCountry(), ur.getUsername(), ur.getPassword()));
@@ -56,12 +53,12 @@ public class User {
     public CredientialResponseModel login(CredientialRequestModel crm) {
         if (!crm.validate()) {
             System.err.println("password invalid " + crm);
-            throw new OurApplicationException(Response.Status.BAD_REQUEST, "password invalid");
+            throw new OurApplicationException(Response.Status.BAD_REQUEST.getStatusCode(), "password invalid");
         }
 
         LocalDate date = LocalDate.now();
         ProfileEntity pe = userStore.loginUser(crm.getUsername(), crm.getPassword(), date, UUID.randomUUID().toString());
-        if (pe == null) throw new OurApplicationException(Response.Status.BAD_REQUEST, "login failed");
+        if (pe == null) throw new OurApplicationException(Response.Status.UNAUTHORIZED.getStatusCode(), "login failed");
         return new CredientialResponseModel(pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName(), pe.getUserEntity().getUserName(), pe.getUserId().toString(), pe.getUserEntity().getCountryLocation(), pe.getDate().toString(), pe.getAuthToken());
     }
 }

@@ -3,10 +3,12 @@ package io.github.iwag.finalproj.store;
 import io.github.iwag.finalproj.models.entities.ExUserEntity;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;
 import io.github.iwag.finalproj.models.entities.UserEntity;
+import org.jvnet.hk2.annotations.Service;
 
 import java.sql.*;
 import java.time.LocalDate;
 
+@Service
 public class MySQLUserStore implements UserStore {
     private Connection connection;
 
