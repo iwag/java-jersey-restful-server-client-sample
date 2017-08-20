@@ -9,12 +9,19 @@ public class SubmitRequestModel {
     private List<SubmitAnswerModel> respnonses;
 
     public SubmitRequestModel() {
-
     }
 
     public SubmitRequestModel(String userId, List<SubmitAnswerModel> respnonses) {
         this.userId = userId;
         this.respnonses = respnonses;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public List<SubmitAnswerModel> getRespnonses() {
@@ -25,16 +32,15 @@ public class SubmitRequestModel {
         this.respnonses = respnonses;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId() {
-        this.userId = userId;
-    }
-
-
     public boolean validate() {
         return userId !=null;
+    }
+
+    @Override
+    public String toString() {
+        return "SubmitRequestModel{" +
+                "userId='" + userId + '\'' +
+                ", respnonses=" + respnonses +
+                '}';
     }
 }
