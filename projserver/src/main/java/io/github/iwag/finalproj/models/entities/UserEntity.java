@@ -45,4 +45,8 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    public String getInsertValues() {
+        return "'" + firstName + "','" + lastName + "','" + countryLocation + "','" + userName + "','" + password + "'";
+    }
 }

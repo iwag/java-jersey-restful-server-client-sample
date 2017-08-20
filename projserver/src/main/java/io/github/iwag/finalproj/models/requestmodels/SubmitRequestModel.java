@@ -29,6 +29,11 @@ public class SubmitRequestModel {
         return userId;
     }
 
+    public void setUserId() {
+        this.userId = userId;
+    }
+
+
     public boolean validate() {
         return userId !=null;
     }

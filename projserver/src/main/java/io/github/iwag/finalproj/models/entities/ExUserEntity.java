@@ -12,5 +12,15 @@ public class ExUserEntity extends UserEntity {
         return userId;
     }
 
-
+    @Override
+    public String toString() {
+        return "ExUserEntity{" +
+                "firstName='" + firstName + '\'' +
+                ", userId=" + userId +
+                ", lastName='" + lastName + '\'' +
+                ", countryLocation='" + countryLocation + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

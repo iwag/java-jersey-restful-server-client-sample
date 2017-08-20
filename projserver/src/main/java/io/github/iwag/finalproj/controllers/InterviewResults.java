@@ -10,6 +10,7 @@ import io.github.iwag.finalproj.store.Stores;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,7 @@ public class InterviewResults {
     public SubmitResponseModel getJSON(@PathParam("interviewid") String sinterviewid, @HeaderParam("auth") String auth, SubmitRequestModel requestModel) {
         // check auth
         if(!Stores.userStore.isAuth(Integer.valueOf(requestModel.getUserId()), auth)) {
-            throw new BadRequestException();
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
 
         Integer interviewId = Integer.valueOf(sinterviewid);

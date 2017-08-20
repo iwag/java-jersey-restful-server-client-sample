@@ -8,10 +8,17 @@ import io.github.iwag.finalproj.models.requestmodels.CredientialRequestModel;
 import io.github.iwag.finalproj.models.requestmodels.UserRequestModel;
 import io.github.iwag.finalproj.models.responsemodels.CredientialResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.UserResponseModel;
+import io.github.iwag.finalproj.store.MySQLUserStore;
 import io.github.iwag.finalproj.store.Stores;
+import io.github.iwag.finalproj.store.UserStore;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -20,16 +27,41 @@ import java.util.UUID;
 
 @Path("users")
 public class User {
+    UserStore userStore;
+
+    public User() throws SQLException {
+
+        userStore = new MySQLUserStore();
+    }
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public UserResponseModel create(UserRequestModel ur) {
-        if (!ur.validate()) throw new BadRequestException();
+        if (!ur.validate()) {
+            System.err.println("password invalid" + ur);
+            throw new OurApplicationException(Response.Status.BAD_REQUEST, "input invalid");
+        }
 
-        ExUserEntity eue = Stores.userStore.addUser(new UserEntity(ur.getFirstname(), ur.getLastname(), ur.getCountry(), ur.getUsername(), ur.getPassword()));
+        ExUserEntity eue = userStore.addUser(new UserEntity(ur.getFirstname(), ur.getLastname(), ur.getCountry(), ur.getUsername(), ur.getPassword()));
+        System.err.println("UserEntity from MySQL "+eue);
         return new UserResponseModel(eue.getFirstName(), eue.getLastName(), eue.getUserId().toString(),
                 ur.getUsername(), eue.getCountryLocation(), "14 July 2017", "");
     }
 
+    @POST
+    @Path("login")
+    @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
+    public CredientialResponseModel login(CredientialRequestModel crm) {
+        if (!crm.validate()) {
+            System.err.println("password invalid " + crm);
+            throw new OurApplicationException(Response.Status.BAD_REQUEST, "password invalid");
+        }
+
+        LocalDate date = LocalDate.now();
+        ProfileEntity pe = userStore.loginUser(crm.getUsername(), crm.getPassword(), date, UUID.randomUUID().toString());
+        if (pe == null) throw new OurApplicationException(Response.Status.BAD_REQUEST, "login failed");
+        return new CredientialResponseModel(pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName(), pe.getUserEntity().getUserName(), pe.getUserId().toString(), pe.getUserEntity().getCountryLocation(), pe.getDate().toString(), pe.getAuthToken());
+    }
 }

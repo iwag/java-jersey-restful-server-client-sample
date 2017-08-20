@@ -34,4 +34,12 @@ public class CredientialRequestModel {
     public boolean validate() {
         return username != null && password != null;
     }
+
+    @Override
+    public String toString() {
+        return "CredientialRequestModel{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -2,7 +2,6 @@ package io.github.iwag.finalproj.main;
 
 
 import org.eclipse.jetty.server.Server;
-import org.glassfish.jersey.server.ResourceConfig;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 public class Main {

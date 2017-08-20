@@ -1,52 +1,15 @@
 package io.github.iwag.finalproj.store;
 
-import io.github.iwag.finalproj.models.entities.CredientialEntity;
-import io.github.iwag.finalproj.models.entities.ExUserEntity;
-import io.github.iwag.finalproj.models.entities.ProfileEntity;
-import io.github.iwag.finalproj.models.entities.UserEntity;
+import io.github.iwag.finalproj.models.entities.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
 
-public class UserStore {
-    private Map<String, ExUserEntity> users;
-    private Map<String, ProfileEntity> authorized;
+public interface UserStore {
 
-    public UserStore() {
-        this.users = new HashMap<>();
-        this.authorized = new HashMap<>();
-    }
-
-    public ExUserEntity addUser(UserEntity ue) {
-        if (users.containsKey(ue.getUserName())) {
-            return null;
-        }
-        Integer userId = users.size();
-        ExUserEntity eue = new ExUserEntity(ue.getFirstName(), ue.getLastName(), ue.getCountryLocation(), ue.getUserName(), ue.getPassword(), userId);
-        users.put(ue.getUserName(), eue);
-        return eue;
-    }
+    public ExUserEntity addUser(UserEntity ue);
 
 
-    public ProfileEntity loginUser(String username, String password, LocalDate date, String auth) {
-        if (!users.containsKey(username)) {
-            return null;
-        }
-        if (authorized.containsKey(username)) {
-            authorized.remove(username);
-        }
-        ExUserEntity ue = users.get(username);
-        ProfileEntity pe = new ProfileEntity(ue, ue.getUserId(), date, auth);
-        authorized.put(username, pe);
-        return pe;
-    }
+    public ProfileEntity loginUser(String username, String password, LocalDate date, String auth);
 
-    public boolean isAuth(Integer userId, String auth) {
-        for (ProfileEntity pe : authorized.values()) {
-            if (pe.getAuthToken() == auth && pe.getUserId() == userId) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
