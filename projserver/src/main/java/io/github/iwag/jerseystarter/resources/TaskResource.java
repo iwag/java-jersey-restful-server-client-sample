@@ -1,13 +1,18 @@
 package io.github.iwag.jerseystarter.resources;
 
 import io.github.iwag.jerseystarter.models.Task;
+import io.github.iwag.jerseystarter.repositories.TaskRepository;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("task")
 public class TaskResource {
+
+    @Inject
+    TaskRepository taskRepository;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
