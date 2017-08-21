@@ -3,6 +3,8 @@ package io.github.iwag.finalproj.store;
 import io.github.iwag.finalproj.models.entities.ExUserEntity;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;
 import io.github.iwag.finalproj.models.entities.UserEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jvnet.hk2.annotations.Service;
 
 import java.sql.*;
@@ -11,6 +13,7 @@ import java.time.LocalDate;
 @Service
 public class MySQLUserStore implements UserStore {
     private Connection connection;
+    final Logger logger = LogManager.getLogger(getClass());
 
     public MySQLUserStore() throws SQLException {
         String port = System.getenv("MYSQL_PORT");
@@ -49,7 +52,7 @@ public class MySQLUserStore implements UserStore {
                         rs.getInt("id"));
             }
         } catch (SQLException e) {
-            System.err.println(e);
+            logger.info(e);
             return null;
         }
         return ex;
@@ -64,7 +67,7 @@ public class MySQLUserStore implements UserStore {
 
             if (rs.next()) {
                 if ( !rs.getString("password").equals(password) ) {
-                    System.err.println("password invalid " + username);
+                    logger.info("password invalid " + username);
                     return null;
                 }
                 UserEntity ue = new UserEntity(rs.getString("first_name"),
@@ -76,11 +79,11 @@ public class MySQLUserStore implements UserStore {
                 pe =  Stores.userStore.newAuth(ue, rs.getInt("id"));
 
             } else {
-                System.err.println("not found" + rs);
+                logger.info("not found" + rs);
                 return null;
             }
         } catch (SQLException e) {
-            System.err.println("exp:" + e);
+            logger.info("exp:" + e);
 
             return null;
         }

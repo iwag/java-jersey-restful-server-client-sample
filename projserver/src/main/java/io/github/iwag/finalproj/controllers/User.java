@@ -11,6 +11,8 @@ import io.github.iwag.finalproj.models.responsemodels.UserResponseModel;
 import io.github.iwag.finalproj.store.MySQLUserStore;
 import io.github.iwag.finalproj.store.Stores;
 import io.github.iwag.finalproj.store.UserStore;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -31,17 +33,19 @@ public class User {
     @Inject
     UserStore userStore;
 
+    final Logger logger = LogManager.getLogger(getClass());
+
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
     public UserResponseModel create(UserRequestModel ur) {
         if (!ur.validate()) {
-            System.err.println("password invalid" + ur);
+            logger.info("password invalid" + ur);
             throw new OurApplicationException(Response.Status.BAD_REQUEST.getStatusCode(), "input invalid");
         }
 
         ExUserEntity eue = userStore.addUser(new UserEntity(ur.getFirstname(), ur.getLastname(), ur.getCountry(), ur.getUsername(), ur.getPassword()));
-        System.err.println("UserEntity from MySQL "+eue);
+        logger.debug("UserEntity from MySQL "+eue);
         return new UserResponseModel(eue.getFirstName(), eue.getLastName(), eue.getUserId().toString(),
                 ur.getUsername(), eue.getCountryLocation(), "14 July 2017", "");
     }
@@ -52,7 +56,7 @@ public class User {
     @Consumes({MediaType.APPLICATION_JSON})
     public CredientialResponseModel login(CredientialRequestModel crm) {
         if (!crm.validate()) {
-            System.err.println("password invalid " + crm);
+            logger.info("password invalid " + crm);
             throw new OurApplicationException(Response.Status.BAD_REQUEST.getStatusCode(), "password invalid");
         }
 
