@@ -36,7 +36,7 @@ public class Interviews {
     public Interviews() {
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "{topic}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "/interview/topics/{topic}", produces = MediaType.APPLICATION_JSON_VALUE)
     public InterviewResponseModel getJSON(@PathVariable("topic") String topic) {
         ExInterviewEntity ex = Stores.interviewStore.getByTopic(topic);
         if (ex==null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
@@ -52,7 +52,7 @@ public class Interviews {
         return interviewResponseModel;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "{topic}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, path = "/interview/{topic}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public SubmitResponseModel getJSON(@PathVariable("interviewid") String sinterviewid, @RequestBody SubmitRequestModel requestModel) {
         String auth = "";
         if (sinterviewid == null || auth == null || !requestModel.validate()) {

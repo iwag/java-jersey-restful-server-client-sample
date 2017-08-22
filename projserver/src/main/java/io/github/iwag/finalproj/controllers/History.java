@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 public class History {
-    @RequestMapping(method = RequestMethod.POST, path = "history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, path = "/interview/history/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public HistoryResponseModel getJSON(@PathVariable("id") Integer id) {
         List<HistoryEntryEntity> ex = Stores.historyStore.getByUser(id);
         if (ex==null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");

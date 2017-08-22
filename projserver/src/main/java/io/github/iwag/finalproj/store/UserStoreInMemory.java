@@ -1,13 +1,14 @@
 package io.github.iwag.finalproj.store;
 
 import io.github.iwag.finalproj.models.entities.*;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Service
 public class UserStoreInMemory implements UserStore {
     private Map<String, ExUserEntity> users;
 

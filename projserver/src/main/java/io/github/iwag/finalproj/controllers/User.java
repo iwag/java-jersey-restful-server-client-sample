@@ -1,6 +1,5 @@
 package io.github.iwag.finalproj.controllers;
 
-import io.github.iwag.finalproj.models.entities.CredientialEntity;
 import io.github.iwag.finalproj.models.entities.ExUserEntity;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;
 import io.github.iwag.finalproj.models.entities.UserEntity;
@@ -9,7 +8,6 @@ import io.github.iwag.finalproj.models.requestmodels.UserRequestModel;
 import io.github.iwag.finalproj.models.responsemodels.CredientialResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.ErrorResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.UserResponseModel;
-import io.github.iwag.finalproj.store.Stores;
 import io.github.iwag.finalproj.store.UserStore;
 import io.github.iwag.finalproj.store.UserStoreInMemory;
 import org.apache.log4j.LogManager;
@@ -21,26 +19,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
 public class User {
 
-    UserStore userStore;
+    private final UserStoreInMemory userStore;
 
     final Logger logger = LogManager.getLogger(getClass());
 
     public User() {
         this.userStore = new UserStoreInMemory();
     }
+
+//    public User() {
+//        this.userStore = new UserStoreInMemory();
+//    }
 
     @ExceptionHandler({ OurApplicationException.class })
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
