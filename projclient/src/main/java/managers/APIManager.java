@@ -1,4 +1,4 @@
-package io.github.iwag.finalproj.models.managers;
+package managers;
 
 import io.github.iwag.finalproj.models.entities.*;
 import io.github.iwag.finalproj.models.interfaces.InterviewerMapper;
@@ -8,12 +8,6 @@ import io.github.iwag.finalproj.models.requestmodels.SubmitRequestModel;
 import io.github.iwag.finalproj.models.requestmodels.UserRequestModel;
 import io.github.iwag.finalproj.models.responsemodels.*;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 
 public class APIManager {
     private Client client = ClientBuilder.newClient();

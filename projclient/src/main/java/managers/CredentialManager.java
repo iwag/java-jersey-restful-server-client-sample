@@ -1,4 +1,4 @@
-package io.github.iwag.finalproj.models.managers;
+package managers;
 
 import io.github.iwag.finalproj.models.entities.CredientialEntity;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;

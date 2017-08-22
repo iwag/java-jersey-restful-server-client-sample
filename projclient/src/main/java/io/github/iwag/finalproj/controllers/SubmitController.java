@@ -2,10 +2,9 @@ package io.github.iwag.finalproj.controllers;
 
 
 import io.github.iwag.finalproj.models.entities.*;
-import io.github.iwag.finalproj.models.managers.APIManager;
+import managers.APIManager;
 
 import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 public class SubmitController {
     private APIManager apiManager;

@@ -1,15 +1,24 @@
 package io.github.iwag.finalproj.controllers;
 
 import io.github.iwag.finalproj.models.responsemodels.ErrorResponseModel;
+import org.springframework.http.HttpStatus;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-class OurApplicationException  extends WebApplicationException {
-     public OurApplicationException(Integer status, String message) {
-         super(Response.status(status)
-                 .entity(new ErrorResponseModel(status.toString(), message))
-                 .type(MediaType.APPLICATION_JSON_TYPE).build());
+class OurApplicationException  extends RuntimeException {
+    private final HttpStatus status;
+    private final String message;
+
+    public OurApplicationException(HttpStatus status, String message) {
+        this.status = status;
+        this.message = message;
      }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

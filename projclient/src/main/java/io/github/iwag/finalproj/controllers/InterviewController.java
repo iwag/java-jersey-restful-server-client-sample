@@ -1,8 +1,8 @@
 package io.github.iwag.finalproj.controllers;
 
 import io.github.iwag.finalproj.models.entities.*;
-import io.github.iwag.finalproj.models.managers.APIManager;
-import io.github.iwag.finalproj.models.managers.CredentialManager;
+import managers.APIManager;
+import managers.CredentialManager;
 
 import java.util.LinkedList;
 import java.util.Scanner;

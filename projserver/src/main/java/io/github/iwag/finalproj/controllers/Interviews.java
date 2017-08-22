@@ -6,32 +6,40 @@ import io.github.iwag.finalproj.models.entities.InterviewEntity;
 import io.github.iwag.finalproj.models.entities.InterviewQuestionEntity;
 import io.github.iwag.finalproj.models.requestmodels.SubmitAnswerModel;
 import io.github.iwag.finalproj.models.requestmodels.SubmitRequestModel;
+import io.github.iwag.finalproj.models.responsemodels.ErrorResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.InterviewQuestionResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.InterviewResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.SubmitResponseModel;
 import io.github.iwag.finalproj.store.Stores;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-@Path("interview")
+@RestController
 public class Interviews {
+
+    @ExceptionHandler({ OurApplicationException.class })
+    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+            OurApplicationException ex, WebRequest request) {
+        return new ResponseEntity<Object>(new ErrorResponseModel(ex.getStatus().toString(), ex.getMessage()), new HttpHeaders(), ex.getStatus());
+    }
 
     public Interviews() {
     }
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("{topic}")
-    public InterviewResponseModel getJSON(@PathParam("topic") String topic) {
+    @RequestMapping(method = RequestMethod.POST, path = "{topic}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public InterviewResponseModel getJSON(@PathVariable("topic") String topic) {
         ExInterviewEntity ex = Stores.interviewStore.getByTopic(topic);
-        if (ex==null) throw new BadRequestException();
+        if (ex==null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
 
         List<InterviewQuestionResponseModel> list = new LinkedList<>();
         for (ExInterviewQuestionEntity qe : ex.getInterviewQuestions() ) {
@@ -44,23 +52,21 @@ public class Interviews {
         return interviewResponseModel;
     }
 
-    @POST
-    @Path("{interviewid}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public SubmitResponseModel getJSON(@PathParam("interviewid") String sinterviewid, @HeaderParam("auth") String auth, SubmitRequestModel requestModel) {
+    @RequestMapping(method = RequestMethod.POST, path = "{topic}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SubmitResponseModel getJSON(@PathVariable("interviewid") String sinterviewid, @RequestBody SubmitRequestModel requestModel) {
+        String auth = "";
         if (sinterviewid == null || auth == null || !requestModel.validate()) {
-            throw new OurApplicationException(Response.Status.BAD_REQUEST.getStatusCode(), "bad request");
+            throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
         }
         // check auth
         if (!Stores.userStore.isAuth(Integer.valueOf(requestModel.getUserId()), auth)) {
-            throw new OurApplicationException(Response.Status.UNAUTHORIZED.getStatusCode(), "auth failed");
+            throw new OurApplicationException(HttpStatus.UNAUTHORIZED, "auth failed");
         }
 
         Integer interviewId = Integer.valueOf(sinterviewid);
         ExInterviewEntity ex= Stores.interviewStore.getByInterviewId(interviewId);
         if (ex==null) {
-            throw new OurApplicationException(Response.Status.NOT_FOUND.getStatusCode(), "interview not found");
+            throw new OurApplicationException(HttpStatus.NOT_FOUND, "interview not found");
         }
 
         Integer questions = ex.getQuestions();

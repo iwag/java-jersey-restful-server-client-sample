@@ -3,7 +3,7 @@ package io.github.iwag.finalproj.controllers;
 import io.github.iwag.finalproj.interfaces.StringValidatePredicator;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;
 import io.github.iwag.finalproj.models.entities.UserEntity;
-import io.github.iwag.finalproj.models.managers.APIManager;
+import managers.APIManager;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;

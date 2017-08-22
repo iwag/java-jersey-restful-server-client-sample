@@ -64,4 +64,15 @@ public class UserRequestModel {
     public boolean validate() {
        return password != null && firstname != null && lastname != null && country != null && username != null;
     }
+
+    @Override
+    public String toString() {
+        return "UserRequestModel{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", country='" + country + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

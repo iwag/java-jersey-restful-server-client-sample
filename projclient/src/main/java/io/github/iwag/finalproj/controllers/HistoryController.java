@@ -1,13 +1,9 @@
 package io.github.iwag.finalproj.controllers;
 
-import io.github.iwag.finalproj.interfaces.StringValidatePredicator;
-import io.github.iwag.finalproj.models.entities.CredientialEntity;
 import io.github.iwag.finalproj.models.entities.HistoryEntity;
 import io.github.iwag.finalproj.models.entities.HistoryEntryEntity;
 import io.github.iwag.finalproj.models.entities.ProfileEntity;
-import io.github.iwag.finalproj.models.managers.APIManager;
-
-import java.util.regex.Pattern;
+import managers.APIManager;
 
 public class HistoryController {
     private APIManager apiManager;
