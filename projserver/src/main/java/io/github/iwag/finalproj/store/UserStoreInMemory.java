@@ -33,7 +33,7 @@ public class UserStoreInMemory implements UserStore {
 
         ExUserEntity ue = users.get(username);
         ProfileEntity pe = new ProfileEntity(ue, ue.getUserId(), date, auth);
-        if (pe.getUserEntity().getPassword() != password) {
+        if (!pe.getUserEntity().getPassword().equals(password)) {
             return null;
         }
         return pe;

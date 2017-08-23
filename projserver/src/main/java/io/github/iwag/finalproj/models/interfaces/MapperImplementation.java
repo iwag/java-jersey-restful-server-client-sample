@@ -29,7 +29,7 @@ public class MapperImplementation {
     }
 
     public static CredientialRequestModel convertToCredientialRequestModel(CredientialEntity credientialEntity) {
-        return new CredientialRequestModel();
+        return new CredientialRequestModel(credientialEntity.getUsername(), credientialEntity.getPassword());
     }
 
     public static ProfileEntity convertToProfileEntity(CredientialResponseModel crm) {

@@ -27,7 +27,6 @@ public class InterviewSelectionController {
                 System.out.println("return");
                 break;
             } else if (key.startsWith("J")) {
-
                 ie = interview("Java", apiManager, credentialManager);
             } else if (key.startsWith("S")) {
                 ie = interview("SQL", apiManager, credentialManager);
@@ -43,7 +42,7 @@ public class InterviewSelectionController {
             System.out.println("You have to login. Thank you");
             return ;
         }
-        HistoryController historyController = new HistoryController(apiManager);
+        HistoryController historyController = new HistoryController(apiManager, credentialManager);
         HistoryEntity he = historyController.history(credentialManager.getPe());
         System.err.print(he);
     }
