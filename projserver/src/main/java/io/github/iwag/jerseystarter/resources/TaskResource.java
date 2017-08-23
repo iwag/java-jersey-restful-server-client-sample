@@ -2,6 +2,8 @@ package io.github.iwag.jerseystarter.resources;
 
 import io.github.iwag.jerseystarter.models.Task;
 import io.github.iwag.jerseystarter.repositories.TaskRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -17,6 +19,8 @@ public class TaskResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Task[] gets() {
+        Logger logger = LogManager.getLogger(getClass());
+        logger.info("gets ");
         return new Task[]{new Task("0", "sample", 0, "2017/08/10")};
     }
 
