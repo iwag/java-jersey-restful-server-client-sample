@@ -25,13 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class Interviews {
-
-    @ExceptionHandler({ OurApplicationException.class })
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
-            OurApplicationException ex, WebRequest request) {
-        return new ResponseEntity<Object>(new ErrorResponseModel(ex.getStatus().toString(), ex.getMessage()), new HttpHeaders(), ex.getStatus());
-    }
+public class Interviews  extends BaseController {
 
     public Interviews() {
     }
@@ -39,7 +33,7 @@ public class Interviews {
     @RequestMapping(method = RequestMethod.GET, path = "/interview/topics/{topic}", produces = MediaType.APPLICATION_JSON_VALUE)
     public InterviewResponseModel getJSON(@PathVariable("topic") String topic) {
         ExInterviewEntity ex = Stores.interviewStore.getByTopic(topic);
-        if (ex==null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
+        if (ex==null) throw new OurApplicationException(HttpStatus.NOT_FOUND, "not found " + topic);
 
         List<InterviewQuestionResponseModel> list = new LinkedList<>();
         for (ExInterviewQuestionEntity qe : ex.getInterviewQuestions() ) {
@@ -53,8 +47,7 @@ public class Interviews {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/interview/{interviewid}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SubmitResponseModel getJSON(@PathVariable("interviewid") String sinterviewid, @RequestBody SubmitRequestModel requestModel) {
-        String auth = "";
+    public SubmitResponseModel getJSON(@RequestHeader("auth") String auth,@PathVariable("interviewid") String sinterviewid, @RequestBody SubmitRequestModel requestModel) {
         if (sinterviewid == null || auth == null || !requestModel.validate()) {
             throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
         }

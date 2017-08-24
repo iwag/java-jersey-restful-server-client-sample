@@ -25,7 +25,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 @RestController
-public class User {
+public class User  extends BaseController  {
 
     private final UserStoreInMemory userStore;
 
@@ -33,17 +33,6 @@ public class User {
 
     public User() {
         this.userStore = new UserStoreInMemory();
-    }
-
-//    public User() {
-//        this.userStore = new UserStoreInMemory();
-//    }
-
-    @ExceptionHandler({ OurApplicationException.class })
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
-            OurApplicationException ex, WebRequest request) {
-        logger.info("errrrrrorrr" + ex);
-        return new ResponseEntity<Object>(new ErrorResponseModel(ex.getStatus().toString(), ex.getMessage()), new HttpHeaders(), ex.getStatus());
     }
 
     @RequestMapping(path = "/users/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

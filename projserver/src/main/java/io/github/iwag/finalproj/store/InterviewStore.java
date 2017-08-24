@@ -25,7 +25,19 @@ public class InterviewStore {
                     "Mexico", "Indiana","Havana", "Mexico City",
                     2, 21, 3
             ));
-            map.put("Java", new ExInterviewEntity(5, 2, "Java", 20, list));
+            map.put("java", new ExInterviewEntity(5, 2, "Java", 20, list));
+        }
+        {
+            List<ExInterviewQuestionEntity> list = Arrays.asList(new ExInterviewQuestionEntity(
+                    "What does SQL stand for",
+                    "Standard query language", "Special Query Language","Standard Question Language", "None",
+                    1, 20, 4
+            ), new ExInterviewQuestionEntity(
+                    "when do you use select statement?",
+                    "to update data", "to delete data","to get data", "to create data",
+                    2, 21, 3
+            ));
+            map.put("sql", new ExInterviewEntity(5, 2, "Java", 20, list));
         }
     }
 

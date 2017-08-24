@@ -15,11 +15,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-public class History {
+public class History extends BaseController {
     @RequestMapping(method = RequestMethod.GET, path = "/interview/history/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public HistoryResponseModel getJSON(@PathVariable("id") Integer id) {
         List<HistoryEntryEntity> ex = Stores.historyStore.getByUser(id);
-        if (ex==null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
+        if (ex == null || ex.isEmpty()) throw new OurApplicationException(HttpStatus.NOT_FOUND, "not found");
 
         List<HistoryEntryResponseModel> list = new LinkedList<>();
         for (HistoryEntryEntity qe : ex ) {
