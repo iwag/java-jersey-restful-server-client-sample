@@ -60,8 +60,8 @@ public class InterviewController {
         // commit answers
         SubmitController submitController = new SubmitController(apiManager, credentialManager);
         AnswerCollectionEntity answerCollection = new AnswerCollectionEntity(answerEntities, interviewEntity.getInterviewId(), credentialManager.getPe().getUserId());
-        InterviewResultEntity res = submitController.submit(credentialManager.getPe(), answerCollection);
-        System.out.println(res);
+        InterviewResultEntity res = submitController.submit(answerCollection);
+        System.err.println(res);
     }
 
 }

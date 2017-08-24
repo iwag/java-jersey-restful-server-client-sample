@@ -11,6 +11,8 @@ import io.github.iwag.finalproj.models.responsemodels.InterviewQuestionResponseM
 import io.github.iwag.finalproj.models.responsemodels.InterviewResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.SubmitResponseModel;
 import io.github.iwag.finalproj.store.Stores;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,6 +54,7 @@ public class Interviews  extends BaseController {
             throw new OurApplicationException(HttpStatus.BAD_REQUEST, "bad request");
         }
         // check auth
+        logger.info("submit:" + requestModel + " " + auth + " ");
         if (!Stores.userStore.isAuth(Integer.valueOf(requestModel.getUserId()), auth)) {
             throw new OurApplicationException(HttpStatus.UNAUTHORIZED, "auth failed");
         }

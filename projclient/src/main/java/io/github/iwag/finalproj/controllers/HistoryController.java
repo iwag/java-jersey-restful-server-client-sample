@@ -19,7 +19,9 @@ public class HistoryController {
     public HistoryEntity history(ProfileEntity pe) {
 
         HistoryEntity hi = apiManager.history(pe.getUserId(), credentialManager.getPe().getAuthToken());
-
+        if (hi==null) {
+            return null;
+        }
         for (HistoryEntryEntity he : hi.getList()) {
             System.out.println(he.getTopic() + " Interview");
             System.out.println(he.getDate());

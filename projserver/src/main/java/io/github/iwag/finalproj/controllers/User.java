@@ -8,6 +8,7 @@ import io.github.iwag.finalproj.models.requestmodels.UserRequestModel;
 import io.github.iwag.finalproj.models.responsemodels.CredientialResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.ErrorResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.UserResponseModel;
+import io.github.iwag.finalproj.store.Stores;
 import io.github.iwag.finalproj.store.UserStore;
 import io.github.iwag.finalproj.store.UserStoreInMemory;
 import org.apache.log4j.LogManager;
@@ -29,8 +30,6 @@ public class User  extends BaseController  {
 
     private final UserStoreInMemory userStore;
 
-    final Logger logger = LogManager.getLogger(getClass());
-
     public User() {
         this.userStore = new UserStoreInMemory();
     }
@@ -43,11 +42,12 @@ public class User  extends BaseController  {
         }
 
         LocalDate date = LocalDate.now();
-        ProfileEntity pe = userStore.loginUser(crm.getUsername(), crm.getPassword(), date, UUID.randomUUID().toString());
-        if (pe == null) { 
+        ProfileEntity logined = userStore.loginUser(crm.getUsername(), crm.getPassword(), date, UUID.randomUUID().toString());
+        if (logined == null) {
             logger.info("login failed" + crm);
 			throw new OurApplicationException(HttpStatus.UNAUTHORIZED, "login failed");
 		}
+        ProfileEntity pe = Stores.userStore.newAuth(logined.getUserEntity(), logined.getUserId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
 
@@ -64,7 +64,8 @@ public class User  extends BaseController  {
 
         ExUserEntity eue = userStore.addUser(new UserEntity(ur.getFirstname(), ur.getLastname(), ur.getCountry(), ur.getUsername(), ur.getPassword()));
         if (eue == null) throw new OurApplicationException(HttpStatus.BAD_REQUEST, "already has");
-        logger.info("UserEntity from MySQL "+eue);
+
+        logger.debug("UserEntity from MySQL "+eue);
         return new UserResponseModel(eue.getFirstName(), eue.getLastName(), eue.getUserId().toString(),
                 ur.getUsername(), eue.getCountryLocation(), "14 July 2017", "");
     }

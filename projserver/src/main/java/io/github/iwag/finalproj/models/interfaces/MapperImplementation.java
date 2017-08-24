@@ -47,7 +47,7 @@ public class MapperImplementation {
             SubmitAnswerModel b = new SubmitAnswerModel(a.getQuestionId(), a.getResponse());
             list.add(b);
         }
-        return new SubmitRequestModel(ace.getInterviewId().toString(), list);
+        return new SubmitRequestModel(ace.getUserId().toString(), list);
     }
 
     public static InterviewResultEntity convertToInterviewResultEntity(SubmitResponseModel submitResponseModel) {

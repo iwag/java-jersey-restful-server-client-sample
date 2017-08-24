@@ -31,4 +31,11 @@ public class SubmitAnswerModel {
         this.response = response;
     }
 
+    @Override
+    public String toString() {
+        return "SubmitAnswerModel{" +
+                "questionId='" + questionId + '\'' +
+                ", response='" + response + '\'' +
+                '}';
+    }
 }

@@ -17,14 +17,15 @@ public class SubmitController {
     }
 
 
-    public InterviewResultEntity submit(ProfileEntity pe, AnswerCollectionEntity ae) {
+    public InterviewResultEntity submit(AnswerCollectionEntity ae) {
+        ProfileEntity pe = credentialManager.getPe();
         InterviewResultEntity re = apiManager.submit(ae, credentialManager.getPe().getAuthToken());
-
-        System.out.printf("Dear %s %s. Here is your result:\n", pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName());
+        if (re==null) return null;
+        System.out.printf("Dear %s %s. Here is your result:\r\n", pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName());
         System.out.println("Date of Test: " + LocalDate.now().toString() + " Your score: " + re.getScore());
-        System.out.printf(" Total number of questions: %d\n", re.getQuestions());
-        System.out.printf(" Correct responses: %d\n",re.getCorrectAnswer());
-        System.out.printf(" Wrong responses: %d Skipped responses: %d The level of\n", re.getCorrectAnswer(), re.getSkippedAnswer());
+        System.out.printf(" Total number of questions: %d\r\n", re.getQuestions());
+        System.out.printf(" Correct responses: %d\r\n",re.getCorrectAnswer());
+        System.out.printf(" Wrong responses: %d Skipped responses: %d\r\n", re.getCorrectAnswer(), re.getSkippedAnswer());
 
         return re;
     }

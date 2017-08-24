@@ -19,8 +19,9 @@ import javax.ws.rs.core.MediaType;
 public class APIManager {
     private Client client = ClientBuilder.newClient();
 
-    private String baseUrl = "http://localhost:8080";
-//    private String baseUrl = "https://calm-wave-21290.herokuapp.com/";
+    private String baseUrl2 = "http://localhost:8080";
+    private String baseUrl = "https://quantum-enigma-177522.appspot.com";
+    private String baseUrlHeroku = "https://calm-wave-21290.herokuapp.com/";
 
     public ProfileEntity createUser(UserEntity ue) {
         // UserEntity => UserRequestModel
@@ -34,6 +35,10 @@ public class APIManager {
             Entity<?> entity = Entity.entity(userRequestModel, MediaType.APPLICATION_JSON);
             userResponseModel = webTarget.request(MediaType.APPLICATION_JSON).accept("application/json").post(entity, UserResponseModel.class);
         } catch (BadRequestException e) {
+            return null;
+        } catch (NotAuthorizedException e) {
+            return null;
+        } catch (NotFoundException e) {
             return null;
         }
 
@@ -58,9 +63,11 @@ public class APIManager {
                     .accept("application/json").post(entity, CredientialResponseModel.class);
         } catch (BadRequestException e) {
             return null;
-    } catch (NotAuthorizedException e) {
-        return null;
-    }
+        } catch (NotAuthorizedException e) {
+            return null;
+        } catch (NotFoundException e) {
+            return null;
+        }
 
         // UserResponseModel => ProfileEntity
         return InterviewerMapper.convertToProfileEntity(credientialResponseModel, MapperImplementation::convertToProfileEntity);
@@ -78,9 +85,11 @@ public class APIManager {
             return null;
         } catch (NotAuthorizedException e) {
             return null;
+        } catch (NotFoundException e) {
+            return null;
         }
         return InterviewerMapper.convertToInterviewEntity(interviewResponseModel, MapperImplementation::convertToInterviewEntity);
-   }
+    }
 
     public InterviewResultEntity submit(AnswerCollectionEntity ace, String auth) {
         // AnswerCollectionEntity => SubmitRequestModel
@@ -98,6 +107,8 @@ public class APIManager {
         } catch (BadRequestException e) {
             return null;
         } catch (NotAuthorizedException e) {
+            return null;
+        } catch (NotFoundException e) {
             return null;
         }
 
@@ -117,6 +128,8 @@ public class APIManager {
         } catch (BadRequestException e) {
             return null;
         } catch (NotAuthorizedException e) {
+            return null;
+        } catch (NotFoundException e) {
             return null;
         }
         return InterviewerMapper.convertToHistoryEntity(historyResponseModel, MapperImplementation::convertToHistoryEntity);

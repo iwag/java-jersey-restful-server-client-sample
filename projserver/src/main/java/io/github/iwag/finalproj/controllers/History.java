@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class History extends BaseController {
@@ -23,7 +25,11 @@ public class History extends BaseController {
 
         List<HistoryEntryResponseModel> list = new LinkedList<>();
         for (HistoryEntryEntity qe : ex ) {
-            HistoryEntryResponseModel qrm = new HistoryEntryResponseModel(qe.getTopic(), qe.getDate().toString(), qe.getScore());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH);
+
+            String dateStr = qe.getDate().format(formatter);
+
+            HistoryEntryResponseModel qrm = new HistoryEntryResponseModel(qe.getTopic(), dateStr, qe.getScore());
             list.add(qrm);
         }
 
