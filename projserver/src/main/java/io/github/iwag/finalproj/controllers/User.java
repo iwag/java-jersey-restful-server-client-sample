@@ -34,6 +34,7 @@ public class User  extends BaseController  {
         this.userStore = new UserStoreInMemory();
     }
 
+    @CrossOrigin(origins = "*")
     @RequestMapping(path = "/users/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public CredientialResponseModel login(@RequestBody CredientialRequestModel crm) {
         if (!crm.validate()) {
@@ -53,6 +54,12 @@ public class User  extends BaseController  {
 
         String dateStr = date.format(formatter);
         return new CredientialResponseModel(pe.getUserEntity().getFirstName(), pe.getUserEntity().getLastName(), pe.getUserId().toString(), pe.getUserEntity().getUserName(), pe.getUserEntity().getCountryLocation(), dateStr, pe.getAuthToken());
+    }
+
+    @CrossOrigin(origins = "http://localhost:9000", methods = RequestMethod.GET)
+    @GetMapping("/hello")
+    public String hello() {
+        return "hellllloo";
     }
 
     @RequestMapping(path = "/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
