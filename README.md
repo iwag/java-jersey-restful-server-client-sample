@@ -85,10 +85,11 @@ java -jar target/dependency/jetty-runner.jar target/*.war 2>&1                  
 2017-08-14 02:04:29.485:INFO:oejs.Server:main: Started @4169ms
 ```
 
-Let's request it via cURL.
+Let's get http request to it via cURL.
 
 ```
-$ curl -i -H "Content-Type: application/json" 'localhost:8080/task'                                               HTTP/1.1 200 OK
+$ curl -i -H "Content-Type: application/json" 'localhost:8080/task'
+HTTP/1.1 200 OK
 Date: Mon, 14 Aug 2017 09:05:31 GMT
 Content-Type: application/json
 Content-Length: 62
@@ -98,7 +99,7 @@ Server: Jetty(9.3.3.v20150827)
 ```
 
 Well done. Now we've done with GET(READ) among CRUD.
-To implement CUD is following.
+CUD is implemented like following code.
 
 ```TaskResource.java
     @DELETE
@@ -125,7 +126,7 @@ To implement CUD is following.
 
 ```
 
-To accept a request's body as JSON we use Consumes. When response no body, you might want to use ResponseBuilder.
+To accept a request's body as JSON, just use Consumes. When response no body, you might want to use ResponseBuilder.
 
 Let's run.
 
@@ -149,7 +150,7 @@ Content-Length: 0
 Server: Jetty(9.3.3.v20150827)
 ```
 
-To deal with path parameter, use Path and PathParam annotations.
+To deal with parameter in request path, use @Path and @PathParam annotations.
 
 ```java
     @GET
@@ -160,13 +161,13 @@ To deal with path parameter, use Path and PathParam annotations.
     }
 ```
 
-Now we can get by this path "localhost:8080/task/0" and set 0 at argument id.
+Now we can get id by url like "localhost:8080/task/0" and 0 is set at argument id.
 
 <a name="jaxb_tip"></a>
 ## JAXB tip
 
 Sometimes field names in Java is not appropriate for JSON convention such as mixup between snake_case and camelCase.
-Use XmlElement annotation to change field name.
+At that time, use XmlElement annotation to change field name as JSON field.
 
 ```Task.java
     @XmlElement(name = "until_date")
@@ -183,12 +184,20 @@ If it returns as JSArray, just take a []
     }
 ```
 
-# Test on server
 
-## Introduce DI (Dependency Injection)
-Install [hk2 (JSR-330) library](https://javaee.github.io/hk2/)
+# Test web server using by DI (Dependency Injection)
 
-TODO text 
+## Preps in server
+
+When we want to test only a web server instead of Database and other library depended by middleware,
+There's effective technique called Dependency Injection.
+In this project, we use [hk2 (JSR-330) library](https://javaee.github.io/hk2/).
+There's another popular library at DI in Java, [guice]() in google and usually popular Web Frameworks have a feature like that nowadays.
+
+Firstly, we seperate Database access into Service interface and implement class.
+Meanwhile we're using @Contract annotation in Service interface and @Service annotation in implementation class.
+In resource, we get data through this service class and put a @Inject annotation with service field.
+
 
 ```TaskService.java
 @Contract
@@ -215,24 +224,24 @@ public class TaskResource {
 }
 ```
 
+Furthermore Resource configuration class is neccesarry.
+
 ```TaskConfig.java
 @ApplicationPath("rest")
 public class TaskConfig extends ResourceConfig {
 
-    public TaskConfig() {
-        packages(this.getClass().getPackage().getName());
-
-        register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(TaskServiceImpl.class).to(TaskService.class);
-            }
-        });
-    }
 }
 ```
 
+Finally, modify web.xml to use this configuration.
+
+```
+```
+
 ## Server side test with DI
+
+Now We can create test by using DI service and contract.
+We can inject Service implementation in test like below.
 
 ```
 public class TestTask extends JerseyTest {
