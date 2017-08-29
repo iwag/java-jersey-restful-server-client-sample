@@ -3,13 +3,15 @@
 [![Build Status](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample.svg?branch=master)](https://travis-ci.org/iwag/java-jersey-restful-server-client-sample)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
-RESTful sample with [Jersey](https://jersey.github.io/) Server/Client in Java8. This sample is simple ToDo Application in Command line interface. 
+RESTful sample with [Jersey](https://jersey.github.io/) Server/Client in Java8. This sample is simple ToDo Application in Command line interface.
 
 # Features
 
 * [Server side project](./projserver)
+* [Introduce Web Test by DI](./projserver/src/test)
 * [Client side code](./projclient)
-* [Step-by-Step guide to build a API server/client](./README.md#make_simple_crud) 
+* [Step-by-Step guide to build a API server/client](./README.md#make_simple_crud)
+
 
 # Table of Contents
 
@@ -74,6 +76,33 @@ public class TaskResource {
 }
 ```
 
+main functions is like this. Set some setting for running as server.
+
+```Main.java
+public class Main {
+    public static final Integer PORT = 8080;
+
+    public static void main(String[] args) throws Exception {
+        final Logger logger = LogManager.getLogger();
+        final Server server = new Server(Integer.valueOf(PORT));
+        final WebAppContext root = new WebAppContext();
+
+        root.setContextPath("/");
+        root.setParentLoaderPriority(true);
+
+        final String webappDirLocation = "src/main/webapp/";
+        root.setDescriptor(webappDirLocation + "/WEB-INF/web.xml");
+        root.setResourceBase(webappDirLocation);
+
+        server.setHandler(root);
+
+        logger.info("start " + server.getURI() + "...");
+        server.start();
+        server.join();
+    }
+}
+```
+
 Compile and run (see above)
 
 ```bash
@@ -126,7 +155,7 @@ CUD is implemented like following code.
 
 ```
 
-To accept a request's body as JSON, just use Consumes. When response no body, you might want to use ResponseBuilder.
+To allow server to accept a request's body as JSON, just use Consumes. When response no body, you might want to use ResponseBuilder.
 
 Let's run.
 
@@ -230,12 +259,27 @@ Furthermore Resource configuration class is neccesarry.
 @ApplicationPath("rest")
 public class TaskConfig extends ResourceConfig {
 
+    @Inject
+    public TaskConfig(ServiceLocator locator) {
+        DynamicConfigurationService dcs = locator.getService(DynamicConfigurationService.class);
+        DynamicConfiguration config = dcs.createDynamicConfiguration();
+
+        config.bind(BuilderHelper.link(TaskRepositoryInMem.class).to(TaskRepository.class).build());
+
+        config.commit();
+
+        packages(true, getClass().getPackage().getName());
+    }
 }
 ```
 
-Finally, modify web.xml to use this configuration.
+Finally, modify web.xml(src/webapp/WEB-INF) to ensure this configuration.
 
 ```
+<init-param>
+  <param-name>javax.ws.rs.Application</param-name>
+  <param-value>io.github.iwag.jerseystarter.main.TaskConfig</param-value>
+</init-param>
 ```
 
 ## Server side test with DI
@@ -276,7 +320,7 @@ public class TestTask extends JerseyTest {
 <a name="simple_client"></a>
 # Simple Client for CRUD
 
-We'd like to follow Repository Pattern. It gives many benefits so easily to create test case. Make all CRUD methods in Repository interface.
+We'd like to follow the [Repository Pattern](https://martinfowler.com/eaaCatalog/repository.html). It gives many benefits so easily to create test case and hide some environment specicic details. Make all CRUD methods in Repository interface.
 
 ```java
 interface TaskRepository {
