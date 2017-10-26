@@ -1,6 +1,4 @@
 
-- before getting started
-  - create github account
 
 ## create Google Computing Platform account
 - go to https://cloud.google.com/
@@ -22,7 +20,7 @@ Following instructions are same as [this page](https://cloud.google.com/compute/
 - select your project in top of bar
 
 
-## Create Instance
+## Create an Instance
 - Select Menu (〓) , then Compute Engine
 - wait a second
 - select VM instances
@@ -51,16 +49,58 @@ cd java-jersey-restful-server-client-sample
 git checkout finalproject
 cd projserver
 mvn clean package
-mvn jetty:run
 sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
 ```
 
 - VM instances -> your instance ->  Click "External IP (10…)"
-  - <img src="https://i.gyazo.com/d77f8f20c469d9a4ff5d1a5fe9f4cef0.png" />
-  - http://{PASTE EXTERNAL_IP}/interview/Java
+  - <img src="https://i.gyazo.com/ddf640b9ef2ae4eb2392d1b3e00db7fb.png" />
+  - open http://{PASTE EXTERNAL_IP}/interview/Java
 
 ## finish
 - Go to VM instances and select your instance then click [DELETE]
 
 
 # how to apply
+
+copy [main](https://github.com/iwag/java-jersey-restful-server-client-sample/blob/master/projserver/src/main/java/io/github/iwag/jerseystarter/main/Main.java) instead main function.
+
+add this into dependencies in pom.xml
+
+```
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>9.3.8.v20160314</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>9.3.8.v20160314</version>
+    </dependency>
+```
+
+add this into plugin in pom.xml
+
+```
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.3</version>
+			<executions>
+				<execution>
+					<phase>package</phase>
+					<goals><goal>copy</goal></goals>
+					<configuration>
+						<artifactItems>
+							<artifactItem>
+								<groupId>org.eclipse.jetty</groupId>
+								<artifactId>jetty-runner</artifactId>
+				        <version>9.3.8.v20160314</version>
+								<destFileName>jetty-runner.jar</destFileName>
+							</artifactItem>
+						</artifactItems>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+```
