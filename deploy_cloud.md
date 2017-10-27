@@ -19,6 +19,7 @@
 
 ## Create GCP PROJECT
 Following instructions are same as [this page](https://cloud.google.com/compute/docs/quickstart-linux)
+- open GCP console https://console.cloud.google.com
 - click [▽] in top of bar <img src="https://i.gyazo.com/f3ed63049158433f9bb037d0b283dcb6.png"  />
 - click [+] <img src="https://i.gyazo.com/594d23f0b5c29fc780568a6a711c9ccb.png"  />
 - input project name (ex. interview-gami)
