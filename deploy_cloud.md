@@ -74,9 +74,8 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
   - I don't use _tomcat_ for several reasons like confusing setup. I think jetty is much easier way to run servlet container
 
 # how to apply your application 
-- get back to "Forked" directory.
-- replace all resource and models package with yours
-  - OR add these snipets into your pom.xml
+- get back to your working directory.
+- add these snipets into your pom.xml
   ```xml
 
 		<plugin>
@@ -119,10 +118,8 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
       <version>9.3.8.v20160314</version>
     </dependency>
    ```
-   
-   ```xml
-   ```
-- mvn package and run
+   - OR replace all resource and models package in my forked directory with yours   
+- mvn package and run as `java -jar target/dependency/jetty-runner.jar target/*.war` 
 - if successful in local, do same thing above instructions
 
 
