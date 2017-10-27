@@ -5,22 +5,17 @@
   - OR git clone https://github.com/YOUR_NAME/java-jersey-restful-server-client-sample.git
 - install maven https://maven.apache.org/install.html
   - https://brew.sh/ can be helpful to install
+  - `brew install maven` if you have brew
 - cd java-jersey-restful-server-client-sample
 - mvn package
 - java -jar target/dependency/jetty-runner.jar target/*.war
 - open http://localhost:8080/interview/Java
-
+  - I don't use _tomcat_ for several reasons like confusing setup. I think jetty is much easier way to run servlet container
 
 ## create Google Computing Platform account
 - go to https://cloud.google.com/
 - click "TRY IT FREE"
 - create account
-
-## set budget
-- Billing & alerts
-  -  Create BUDGET
-  - set ammount of money like this
- <img src="https://i.gyazo.com/cfb95da3a13ae2993e6f033de7a3f17b.png" width="320px"/>
 
 ## Create GCP PROJECT
 Following instructions are same as [this page](https://cloud.google.com/compute/docs/quickstart-linux)
@@ -31,6 +26,11 @@ Following instructions are same as [this page](https://cloud.google.com/compute/
 - wait a second (would take a few seconds)
 - select your project in top of bar
 
+## set budget
+- select Menu (〓) , then Billing & alerts
+  -  Create BUDGET
+  - set ammount of money like this
+ <img src="https://i.gyazo.com/cfb95da3a13ae2993e6f033de7a3f17b.png" width="320px"/>
 
 ## Create an Instance
 - Select Menu (〓) , then click Compute Engine
@@ -71,7 +71,7 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
 ## terminate
 - Go to VM instances and select your instance then click [DELETE]
 
-# how to apply your application (1)
+# how to apply your application 
 - get back to "Forked" directory.
 - replace all resource and models package with yours
 - mvn package and run
