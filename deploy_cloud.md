@@ -1,16 +1,3 @@
-## Run sample application locally
-- click "Fork" in https://github.com/iwag/java-jersey-restful-server-client-sample
-- open terminal
-- git clone git@github.com:!!!YOUR_NAME!!!/java-jersey-restful-server-client-sample.git
-  - OR git clone https://github.com/YOUR_NAME/java-jersey-restful-server-client-sample.git
-- install maven https://maven.apache.org/install.html
-  - https://brew.sh/ can be helpful to install
-  - `brew install maven` if you have brew
-- cd java-jersey-restful-server-client-sample
-- mvn package
-- java -jar target/dependency/jetty-runner.jar target/*.war
-- open http://localhost:8080/interview/Java
-  - I don't use _tomcat_ for several reasons like confusing setup. I think jetty is much easier way to run servlet container
 
 ## create Google Computing Platform account
 - go to https://cloud.google.com/
@@ -72,9 +59,69 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
 ## terminate
 - Go to VM instances and select your instance then click [DELETE]
 
+## Run sample application locally
+- click "Fork" in https://github.com/iwag/java-jersey-restful-server-client-sample
+- open terminal
+- git clone git@github.com:!!!YOUR_NAME!!!/java-jersey-restful-server-client-sample.git
+  - OR git clone https://github.com/YOUR_NAME/java-jersey-restful-server-client-sample.git
+- install maven https://maven.apache.org/install.html
+  - https://brew.sh/ can be helpful to install
+  - `brew install maven` if you have brew
+- cd java-jersey-restful-server-client-sample
+- mvn package
+- java -jar target/dependency/jetty-runner.jar target/*.war
+- open http://localhost:8080/interview/Java
+  - I don't use _tomcat_ for several reasons like confusing setup. I think jetty is much easier way to run servlet container
+
 # how to apply your application 
 - get back to "Forked" directory.
 - replace all resource and models package with yours
+  - OR add these snipets into your pom.xml
+  ```xml
+
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<version>2.3</version>
+			<executions>
+				<execution>
+					<phase>package</phase>
+					<goals><goal>copy</goal></goals>
+					<configuration>
+						<artifactItems>
+							<artifactItem>
+								<groupId>org.eclipse.jetty</groupId>
+								<artifactId>jetty-runner</artifactId>
+				        <version>9.3.8.v20160314</version>
+								<destFileName>jetty-runner.jar</destFileName>
+							</artifactItem>
+						</artifactItems>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-maven-plugin</artifactId>
+			<version>9.3.8.v20160314</version>
+		</plugin>
+  ```
+  
+  ```xml
+   <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>9.3.8.v20160314</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>9.3.8.v20160314</version>
+    </dependency>
+   ```
+   
+   ```xml
+   ```
 - mvn package and run
 - if successful in local, do same thing above instructions
 
