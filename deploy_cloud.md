@@ -1,4 +1,4 @@
-## clone repository in local
+## Run sample application locally
 - click "Fork" in https://github.com/iwag/java-jersey-restful-server-client-sample
 - open terminal
 - git clone git@github.com:!!!YOUR_NAME!!!/java-jersey-restful-server-client-sample.git
@@ -19,6 +19,7 @@
 ## set budget
 - Billing & alerts
   -  Create BUDGET
+  - set ammount of money like this
  <img src="https://i.gyazo.com/cfb95da3a13ae2993e6f033de7a3f17b.png" width="320px"/>
 
 ## Create GCP PROJECT
@@ -27,19 +28,19 @@ Following instructions are same as [this page](https://cloud.google.com/compute/
 - click [+] <img src="https://i.gyazo.com/594d23f0b5c29fc780568a6a711c9ccb.png"  />
 - input project name (ex. interview-gami)
 - click [create]
-- wait a moment (would take a few minute)
+- wait a second (would take a few seconds)
 - select your project in top of bar
 
 
 ## Create an Instance
-- Select Menu (〓) , then Compute Engine
+- Select Menu (〓) , then click Compute Engine
 - wait a second
 - select VM instances
 - Create an instance
   - Fill in like this <img src="https://i.gyazo.com/6c9e6d857cad9cd4e0e6cd7c4dbf1f4e.png" />
   - select micro in Machine type <- if select other type, you have to pay some money
     - <img src="https://i.gyazo.com/6935c7f9aa8d105de28cb62df3a842d7.png" />
-    - like right part micro is free
+    - micro is free as you can see
   - select ubuntu 16.04
   - select Allow HTTP  in  Firewall
 - click [create]
@@ -49,7 +50,7 @@ Following instructions are same as [this page](https://cloud.google.com/compute/
 - click your instance in "VM instances" view to goto "VM instance detail"
 - Click [SSH] near Remote access
 
-## in ssh console
+## setup machine and run server
 - type following commands
 
 ```
@@ -67,59 +68,13 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
   - <img src="https://i.gyazo.com/ddf640b9ef2ae4eb2392d1b3e00db7fb.png" />
   - open http://{PASTE EXTERNAL_IP}/interview/Java
 
-## finish
+## terminate
 - Go to VM instances and select your instance then click [DELETE]
 
-# how to apply (1)
-
-- download my repository in your computer, [download](https://github.com/iwag/java-jersey-restful-server-client-sample/archive/finalproject.zip)
+# how to apply your application (1)
+- get back to "Forked" directory.
 - replace all resource and models package with yours
-- create github repository
-- git init && git push
-- Do same thing above instructions
+- mvn package and run
+- if successful in local, do same thing above instructions
 
 
-# how to apply (2)
-
-copy [main](https://github.com/iwag/java-jersey-restful-server-client-sample/blob/master/projserver/src/main/java/io/github/iwag/jerseystarter/main/Main.java) instead main function.
-
-add this into dependencies in pom.xml
-
-```
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <version>9.3.8.v20160314</version>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
-      <version>9.3.8.v20160314</version>
-    </dependency>
-```
-
-add this into plugin in pom.xml
-
-```
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-dependency-plugin</artifactId>
-			<version>2.3</version>
-			<executions>
-				<execution>
-					<phase>package</phase>
-					<goals><goal>copy</goal></goals>
-					<configuration>
-						<artifactItems>
-							<artifactItem>
-								<groupId>org.eclipse.jetty</groupId>
-								<artifactId>jetty-runner</artifactId>
-				        <version>9.3.8.v20160314</version>
-								<destFileName>jetty-runner.jar</destFileName>
-							</artifactItem>
-						</artifactItems>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
-```
