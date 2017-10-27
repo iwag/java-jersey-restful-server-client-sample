@@ -1,3 +1,14 @@
+## clone repository in local
+- click "Fork" in https://github.com/iwag/java-jersey-restful-server-client-sample
+- open terminal
+- git clone git@github.com:!!!YOUR_NAME!!!/java-jersey-restful-server-client-sample.git
+  - OR git clone https://github.com/YOUR_NAME/java-jersey-restful-server-client-sample.git
+- install maven https://maven.apache.org/install.html
+  - https://brew.sh/ can be helpful to install
+- cd java-jersey-restful-server-client-sample
+- mvn package
+- java -jar target/dependency/jetty-runner.jar target/*.war
+- open http://localhost:8080/interview/Java
 
 
 ## create Google Computing Platform account
@@ -59,8 +70,16 @@ sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
 ## finish
 - Go to VM instances and select your instance then click [DELETE]
 
+# how to apply (1)
 
-# how to apply
+- download my repository in your computer, [download](https://github.com/iwag/java-jersey-restful-server-client-sample/archive/finalproject.zip)
+- replace all resource and models package with yours
+- create github repository
+- git init && git push
+- Do same thing above instructions
+
+
+# how to apply (2)
 
 copy [main](https://github.com/iwag/java-jersey-restful-server-client-sample/blob/master/projserver/src/main/java/io/github/iwag/jerseystarter/main/Main.java) instead main function.
 
