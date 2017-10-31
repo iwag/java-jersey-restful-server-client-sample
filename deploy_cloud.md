@@ -101,7 +101,7 @@ git clone https://github.com/YOUR_NAME/YOUR_REPOSITORY
 cd YOUR_REPOSITORY
 git checkout deploytogoogle
 mvn package
-sudo java -jar target/dependency/jetty-runner.jar —port 80 target/*.war
+sudo java -jar target/dependency/jetty-runner.jar target/*.war -—port 80 
 ```
 
 - VM instances -> your instance ->  Click "External IP (10…)"
