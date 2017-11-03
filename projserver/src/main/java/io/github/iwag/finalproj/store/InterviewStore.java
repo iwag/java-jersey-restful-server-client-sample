@@ -37,7 +37,7 @@ public class InterviewStore {
                     "to update data", "to delete data","to get data", "to create data",
                     2, 21, 3
             ));
-            map.put("sql", new ExInterviewEntity(5, 2, "Java", 20, list));
+            map.put("sql", new ExInterviewEntity(6, 2, "Sql", 20, list));
         }
     }
 

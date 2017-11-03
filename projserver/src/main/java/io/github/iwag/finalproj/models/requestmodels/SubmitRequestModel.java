@@ -6,14 +6,14 @@ import java.util.List;
 @XmlRootElement
 public class SubmitRequestModel {
     private String userId;
-    private List<SubmitAnswerModel> respnonses;
+    private List<SubmitAnswerModel> responses;
 
     public SubmitRequestModel() {
     }
 
-    public SubmitRequestModel(String userId, List<SubmitAnswerModel> respnonses) {
+    public SubmitRequestModel(String userId, List<SubmitAnswerModel> responses) {
         this.userId = userId;
-        this.respnonses = respnonses;
+        this.responses = responses;
     }
 
     public String getUserId() {
@@ -24,12 +24,12 @@ public class SubmitRequestModel {
         this.userId = userId;
     }
 
-    public List<SubmitAnswerModel> getRespnonses() {
-        return respnonses;
+    public List<SubmitAnswerModel> getResponses() {
+        return responses;
     }
 
-    public void setRespnonses(List<SubmitAnswerModel> respnonses) {
-        this.respnonses = respnonses;
+    public void setResponses(List<SubmitAnswerModel> responses) {
+        this.responses = responses;
     }
 
     public boolean validate() {
@@ -40,7 +40,7 @@ public class SubmitRequestModel {
     public String toString() {
         return "SubmitRequestModel{" +
                 "userId='" + userId + '\'' +
-                ", respnonses=" + respnonses +
+                ", responses=" + responses +
                 '}';
     }
 }

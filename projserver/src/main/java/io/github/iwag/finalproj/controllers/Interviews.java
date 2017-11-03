@@ -2,29 +2,19 @@ package io.github.iwag.finalproj.controllers;
 
 import io.github.iwag.finalproj.models.entities.ExInterviewEntity;
 import io.github.iwag.finalproj.models.entities.ExInterviewQuestionEntity;
-import io.github.iwag.finalproj.models.entities.InterviewEntity;
-import io.github.iwag.finalproj.models.entities.InterviewQuestionEntity;
 import io.github.iwag.finalproj.models.requestmodels.SubmitAnswerModel;
 import io.github.iwag.finalproj.models.requestmodels.SubmitRequestModel;
-import io.github.iwag.finalproj.models.responsemodels.ErrorResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.InterviewQuestionResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.InterviewResponseModel;
 import io.github.iwag.finalproj.models.responsemodels.SubmitResponseModel;
 import io.github.iwag.finalproj.store.Stores;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class Interviews  extends BaseController {
@@ -73,7 +63,7 @@ public class Interviews  extends BaseController {
         String duration = ex.getDuration().toString();
         String score = "";
 
-        for (SubmitAnswerModel sa : requestModel.getRespnonses()) {
+        for (SubmitAnswerModel sa : requestModel.getResponses()) {
             boolean res = Stores.interviewStore.correct(interviewId, Integer.valueOf(sa.getQuestionId()), sa.getResponse());
             if (res) {
                 correctAnswer += 1;
